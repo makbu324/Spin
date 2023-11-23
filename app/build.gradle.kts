@@ -47,4 +47,6 @@ dependencies {
     implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.22")
     implementation("com.squareup.okhttp3:okhttp:4.8.1")
     implementation("com.squareup.okhttp3:logging-interceptor:4.8.1")
+    implementation("androidx.preference:preference:1.2.0")
+    implementation("org.jsoup:jsoup:1.13.1")
 }
