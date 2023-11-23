@@ -1,6 +1,6 @@
 package com.spin_cake_con
 
-import ImageUploader
+
 import android.util.Log
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -11,6 +11,8 @@ import java.io.IOException
 /**
  * Uploader for form based services.
  */
+
+
 abstract class FormImageUploader : ImageUploader {
 
     protected abstract val formName: String

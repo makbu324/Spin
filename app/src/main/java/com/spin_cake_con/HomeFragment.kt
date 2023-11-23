@@ -7,12 +7,16 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import androidx.annotation.Keep
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 
 @Keep
 class HomeFragment: Fragment() {
     companion object {
         const val TAG = "ChooserFragment"
     }
+
+
+    private val viewModel by activityViewModels<MainViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,5 +30,7 @@ class HomeFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<WebView>(R.id.google_maps).loadUrl("https://mapsdirections.io")
+
+
     }
 }
