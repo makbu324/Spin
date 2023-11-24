@@ -47,6 +47,8 @@ class MainActivity : AppCompatActivity() {
             supportActionBar?.setDisplayShowHomeEnabled(it)
         }
 
+        //...
+
         viewModel.getImageFilePath().observe(this) {
             if (!it.isNullOrEmpty()) {
                 supportFragmentManager.commit {
