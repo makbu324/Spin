@@ -8,11 +8,12 @@
     android:gravity="center"
     tools:context="HomeFragment">
 
-    <WebView
-        android:layout_width="1000px"
-        android:layout_height="1000px"
-        android:id="@+id/google_maps"
-        />
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="250px"
