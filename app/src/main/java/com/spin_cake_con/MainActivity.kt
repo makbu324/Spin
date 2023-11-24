@@ -62,6 +62,21 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        viewModel.getSearchResults().observe(this) {
+            if (!it.isNullOrEmpty()) {
+                supportFragmentManager.commit {
+                    setCustomAnimations(
+                        R.anim.enter_from_right,
+                        R.anim.exit_to_left,
+                        R.anim.enter_from_left,
+                        R.anim.exit_to_right
+                    )
+                    replace(R.id.nav_host, ResultsFragment(), ResultsFragment.TAG)
+                    addToBackStack(ResultsFragment.TAG)
+                }
+            }
+        }
+
 
     }
 }
