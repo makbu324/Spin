@@ -46,16 +46,30 @@ class description_webscrape: AsyncTask<Void, Void, Void>() {
             var elements = document.select("*")
 
             HTML_hi = elements.toString()
-            Thread.sleep(3000)
+            Thread.sleep(1000)
 
             if ("archive.org/download/" in HTML_hi) {
                 var g = HTML_hi.indexOf("archive.org/download/")
-                Thread.sleep(3000)
                 image_source = HTML_hi.slice(g..g+250)
                 image_source = "https://" + image_source.slice(0..<image_source.indexOf('"'))
                 Log.d("image_source_pls", image_source)
             } else
                 Log.d("image_source_pls", "apparently nope")
+
+            //other info: artist, album, duration, genre
+            if ("tagger-icon" in HTML_hi) {
+                var g = HTML_hi.indexOf("tagger-icon")
+                album_sys = HTML_hi.slice(g+150..g+1000)
+                Log.d("donnie789", album_sys)
+                Thread.sleep(500)
+                album_sys = album_sys.slice(album_sys.indexOf('"')+7..<album_sys.length)
+                album_sys = album_sys.slice(0..<album_sys.indexOf('<'))
+
+                HTML_hi= HTML_hi.slice(g+150..g+1000)
+                var h = HTML_hi.indexOf("title=") + 7
+                artist_sys = HTML_hi.slice(h..h+50)
+                artist_sys = artist_sys.slice(0..<artist_sys.indexOf('"'))
+            }
         }
         else if ("type=artist" in URL_link) {
             var elements = document.select("*")
@@ -72,7 +86,7 @@ class description_webscrape: AsyncTask<Void, Void, Void>() {
 
             Log.d("come_again?", "hi")
             if (music_brainz_search) {
-                Thread.sleep(6000)
+                Thread.sleep(5000)
                 //now search for the record
                 if ("/cover-art" in HTML_hi) {
                     var g = HTML_hi.indexOf("/cover-art")
@@ -90,21 +104,8 @@ class description_webscrape: AsyncTask<Void, Void, Void>() {
                     }
                 }
 
-
-                //other info: artist, album, duration, genre
-                if ("tagger-icon" in HTML_hi) {
-                    var g = HTML_hi.indexOf("tagger-icon")
-                    album_sys = HTML_hi.slice(g+100..g+1000)
-                    Log.d("album_sys", album_sys)
-                    album_sys = album_sys.slice(album_sys.indexOf("<bdi>")+5..artist_sys.indexOf("</bdi>"))
-
-                    var h = HTML_hi.indexOf("title=") + 7
-                    artist_sys = HTML_hi.slice(h..h+50)
-                    artist_sys = artist_sys.slice(0..artist_sys.indexOf('"'))
-                }
-
             } else {
-                //Thread.sleep(3000)
+                Thread.sleep(1000)
                 for (artist in artists_array) {
                     if (artist == try_this_one || artist == "" || try_this_one == "")
                         "ignore" //ignore
@@ -257,6 +258,8 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
         var j = HTML_hi.indexOf("AF_initDataCallback({" )
         HTML_hi = HTML_hi.slice(j+50..j+10000)
 
+        Log.d("donnie123", HTML_hi)
+
         var search_this = ""
 
         var comp_array = mutableListOf<String>()
@@ -303,11 +306,13 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
 
                     if (notRando && search_this.length in 2..50 && !("Bandcamp" == search_this || "Pitchfork" == search_this || "stock" in search_this || "merch" in search_this || "Merch" in search_this || "results" in search_this || "Wikipedia" == search_this || "Records" in search_this || "Genius" == search_this || "Apple" == search_this || "Shazam" == search_this || "TIDAL" == search_this || "Rolling Stone" == search_this || "MAGAZINE" in search_this || "Magazine" in search_this || "Pinterest" in search_this || "YouTube" == search_this || "poster" in search_this || "SoundCloud" == search_this || "ALBUMS" in search_this || "Music" in search_this || "SONG" in search_this || "Song" in search_this || ".co" in search_this || "Facebook" in search_this || "Twitter" in search_this || "Spotify" in search_this || "EXPLICIT" in search_this || "Explicit" in search_this || "PARENTAL" in search_this || "ADVISORY" in search_this || "Content" in search_this || "content" in search_this || "CONTENT" in search_this|| "Review" in search_this || "review" in search_this || "Etsy" == search_this || "Used" == search_this || "$" in search_this || "eBay" in search_this || "Instagram" in search_this || "Reddit" == search_this || "Discogs" == search_this || "The" == search_this || "Album of" in search_this || "USD" == search_this || "Iconic" == search_this || "albums" in search_this || "Albums" in search_this || "ALBUMS" in search_this || "Youtube" == search_this || "=" in search_this ||  "Search" in search_this ||  ".org" in search_this || "In stock" in search_this || "singer" in search_this || "rapper" in search_this  || "\\" in search_this || "/" in search_this || "-" in search_this || "_" in search_this || "|" in search_this ))
                         comp_array.add(search_this)
-                    if ("Album by" in search_this || "album by" in search_this) {
+                    if ("Album by" in search_this || "album by" in search_this || "Song by" in search_this ) {
                         var s3 = HTML_hi.slice(i-100..i+50)
+                        Log.d("You see OG", search_this)
+                        Log.d("You see", s3)
                         s3 = s3.slice(s3.indexOf('"')+1..s3.length-1)
                         s3 = s3.slice(0..<s3.indexOf('"'))
-                        comb.add(s3+ ":::::::" + comp_array[comp_array.size-1])
+                        comb.add(s3+ ":::::::" + search_this)
                         skip_this = true
                         break
                     }
@@ -439,6 +444,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
         artists_array = mutableListOf<String>()
         comb = mutableListOf<String>()
 
+        search_this = search_this.replace("Song by ", "")
         search_this = search_this.replace("album by ", "")
         search_this = search_this.replace("Album by ", "")
         search_this = search_this.replace("album", "")
@@ -503,7 +509,6 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
         //prepare for search
 
         search_this = search_this.replace(' ', '+')
-        //Log.d("source123", HTML_hi)
         Log.d("search_this", search_this)
 
         //search up a suitable video

@@ -85,6 +85,7 @@ class ResultsFragment : Fragment() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(view.context)
         builder
             .setTitle("Is this the album?")
+            .setMessage(viewModel.album + " - by " + viewModel.artist)
             .setView(child)
             .setPositiveButton("Positive") { dialog, which ->
                 // Do something.
