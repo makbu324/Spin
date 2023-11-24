@@ -55,4 +55,6 @@ dependencies {
     implementation("com.github.OHermesJunior:ChoosePhotoHelper:1.3.1")
     implementation("com.github.yalantis:ucrop:2.2.6")
     implementation("com.github.delight-im:Android-AdvancedWebView:v3.2.1")
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 }
