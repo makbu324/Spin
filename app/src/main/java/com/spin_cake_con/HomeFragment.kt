@@ -1,5 +1,6 @@
 package com.spin_cake_con
 
+import MainViewModel
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater

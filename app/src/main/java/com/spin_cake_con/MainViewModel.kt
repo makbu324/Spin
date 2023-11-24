@@ -1,4 +1,3 @@
-package com.spin_cake_con
 
 import android.app.Application
 import android.content.SharedPreferences
@@ -9,8 +8,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
+import com.spin_cake_con.R
+import com.spin_cake_con.ImageUploader
 import com.spin_cake_con.TransfershUploader
-
+import com.spin_cake_con.SearchResult
 import org.jsoup.Jsoup
 import java.io.File
 
@@ -32,13 +33,6 @@ var artist_sys = ""
 var duration_sys = ""
 var album_sys = ""
 
-interface ImageUploader {
-    fun upload(file: File, callback: UploadCallback): Boolean
-
-    interface UploadCallback {
-        fun onResult(responseStr: String)
-    }
-}
 class description_webscrape: AsyncTask<Void, Void, Void>() {
     override fun onPreExecute() {
         super.onPreExecute()
@@ -162,7 +156,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
     private val imageUploader: ImageUploader = TransfershUploader()
     private val uploadedUrl = MutableLiveData("")
     private val imgPath = MutableLiveData("")
-    private val appbarTitle = MutableLiveData(context.getString(R.string.app_name))
+    private val appbarTitle = MutableLiveData("SPIN")
     private val allowGoBack = MutableLiveData(false)
     private val showSettingsIcon = MutableLiveData(true)
     private val showLinkIcon = MutableLiveData(true)
@@ -209,7 +203,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
 
     fun setAppbarTitle(title: String) {
         if (title.isBlank())
-            appbarTitle.value = context.getString(R.string.app_name)
+            appbarTitle.value = "SPIN"
         else
             appbarTitle.value = title
     }
@@ -529,7 +523,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
             "google" to SearchResult(
                 "Google",
                 "https://lens.google.com/uploadbyurl?url=$url",
-                ContextCompat.getDrawable(context, R.drawable.wood_background)!!
+                ContextCompat.getDrawable(context, R.drawable.record_spin)!!
             )
         )
         val results = mutableListOf<SearchResult>()
