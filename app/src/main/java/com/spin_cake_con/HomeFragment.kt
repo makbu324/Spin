@@ -1,17 +1,30 @@
 package com.spin_cake_con
 
 import MainViewModel
+import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.LocationRequest
+import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.PermissionRequest
 import android.webkit.WebView
 import android.widget.Button
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.Keep
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.aminography.choosephotohelper.ChoosePhotoHelper
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -29,6 +42,9 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
     private val viewModel by activityViewModels<MainViewModel>()
     private lateinit var mapView: MapView
     private lateinit var googleMap: GoogleMap
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private var latit = 0.0
+    private var longit = 0.0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -81,9 +97,76 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
     }
     override fun onMapReady(map: GoogleMap){
         googleMap = map
-        val location = LatLng(37.0, -122.0)
-        googleMap.addMarker(MarkerOptions().position(location))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10f))
-
+        Log.d("MapDebug", "Map is ready")
+        fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(requireContext())
+        getCurrentLocation()
     }
+
+    private fun getCurrentLocation(){
+        if(checkPermissions() && isLocationEnabled()){
+            if (ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPerms()
+                return
+            }
+            fusedLocationProviderClient.lastLocation.addOnCompleteListener { task ->
+                if(task.isSuccessful){
+                    val location: Location? = task.result
+                    if (location != null) {
+                        latit = location.latitude
+                        longit = location.longitude
+                        val curLatlng = LatLng(latit, longit)
+                        googleMap.addMarker(MarkerOptions().position(curLatlng).title("Current Location").snippet("Lat: $latit, Long: $longit"))
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curLatlng, 10f))
+                    } else {
+                        Log.e("LocError", "Error Getting Location: ${task.exception}")
+                    }
+                } else {
+
+                }
+            }
+        } else {
+            requestPerms()
+        }
+    }
+
+    private fun isLocationEnabled():Boolean{
+        val locationManager:LocationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)||locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
+    private fun requestPerms() {
+        val requestCode = 101
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                requireActivity(),
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) || ActivityCompat.shouldShowRequestPermissionRationale(
+                requireActivity(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        ) {
+        } else {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION
+                ),
+                requestCode
+            )
+        }
+    }
+
+    private fun checkPermissions(): Boolean{
+        return (ActivityCompat.checkSelfPermission(requireContext(),
+            android.Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission((requireContext()), android.Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED)
+    }
+
+
 }
