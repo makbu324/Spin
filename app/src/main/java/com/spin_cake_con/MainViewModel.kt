@@ -169,6 +169,8 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
     var duration = ""
     var genre = ""
     var album = ""
+    var search_keyword = ""
+    var list_of_keyword = mutableListOf<String>()
 
     var fragmentTag = ""
         get() = field
@@ -258,8 +260,6 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
         var j = HTML_hi.indexOf("AF_initDataCallback({" )
         HTML_hi = HTML_hi.slice(j+50..j+10000)
 
-        Log.d("donnie123", HTML_hi)
-
         var search_this = ""
 
         var comp_array = mutableListOf<String>()
@@ -326,7 +326,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
 
         if (skip_this && comb.size == 1) {
             search_this = comb[0]
-        } else if (comp_array.size >= 15) {
+        } else if (comp_array.size >= 10) {
             Log.d("Make it faster", "come_on")
             //same code as below
 
@@ -496,11 +496,15 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
             album = album_sys
             genre = genre_sys
             duration = duration_sys
+            search_keyword = search_that
+            list_of_keyword = comp_array
 
             Log.d("artist", artist)
             Log.d("album", album)
             Log.d("genre", genre)
             Log.d("duration", duration)
+            Log.d("search_keyword", search_keyword)
+            Log.d("list_of_keyword", comp_array.toString())
         }
 
         //turn it off
