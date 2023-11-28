@@ -123,7 +123,7 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
                         longit = location.longitude
                         val curLatlng = LatLng(latit, longit)
                         googleMap.addMarker(MarkerOptions().position(curLatlng).title("Current Location").snippet("Lat: $latit, Long: $longit"))
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curLatlng, 10f))
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curLatlng, 16f))
                     } else {
                         Log.e("LocError", "Error Getting Location: ${task.exception}")
                     }
