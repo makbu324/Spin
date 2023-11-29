@@ -63,7 +63,6 @@ class ResultsFragment : Fragment() {
         val youTubePlayerView = view.findViewById<YouTubePlayerView>(R.id.youtube_player_view)
 
         Thread.sleep(2000)
-        Log.d("martinmyboi", viewModel.youtube_id)
         lifecycle.addObserver(youTubePlayerView)
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {

@@ -22,17 +22,21 @@
         >
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Camera"
+            android:background="@drawable/camera_icon"
             android:id="@+id/camera_button"/>
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/home_icon"
+            android:id="@+id/home_button"/>
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/settings_icon"
+            android:id="@+id/settings_button"/>
     </LinearLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>
