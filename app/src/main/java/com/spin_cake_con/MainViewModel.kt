@@ -241,6 +241,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
         bm.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val b = baos.toByteArray()
         url_thing = Base64.encodeToString(b, Base64.DEFAULT) //try
+        Log.d("encoded64", url_thing)
     }
 
     fun setUploadedImageUrl(url: String) {
