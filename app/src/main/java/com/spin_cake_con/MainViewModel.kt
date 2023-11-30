@@ -238,7 +238,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
 
     private fun encodeImage(bm: Bitmap) {
         val baos = ByteArrayOutputStream()
-        bm.compress(Bitmap.CompressFormat.JPEG, 1, baos)
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos)
         val b = baos.toByteArray()
         url_thing = Base64.encodeToString(b, Base64.DEFAULT) //try
     }

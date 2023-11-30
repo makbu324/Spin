@@ -12,5 +12,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
     </style>
 
-    <style name="Theme.Spin" parent="Base.Theme.Spin" />
+    <style name="Theme.Spin" parent="Base.Theme.Spin">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
 </resources>
