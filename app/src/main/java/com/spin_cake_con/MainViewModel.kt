@@ -1,7 +1,10 @@
 
 import android.app.Application
 import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.AsyncTask
+import android.util.Base64
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
@@ -13,7 +16,10 @@ import com.spin_cake_con.ImageUploader
 import com.spin_cake_con.TransfershUploader
 import com.spin_cake_con.SearchResult
 import org.jsoup.Jsoup
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.net.HttpURLConnection
+import java.net.URL
 
 var youtube_video_id: String = ""
 var URL_link: String = ""
@@ -171,6 +177,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
     var album = ""
     var search_keyword = ""
     var list_of_keyword = mutableListOf<String>()
+    var url_thing = ""
 
     var fragmentTag = ""
         get() = field
@@ -229,9 +236,22 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
 
     fun getSearchResults(): LiveData<List<SearchResult>> = searchResults
 
+    private fun encodeImage(bm: Bitmap) {
+        val baos = ByteArrayOutputStream()
+        bm.compress(Bitmap.CompressFormat.JPEG, 1, baos)
+        val b = baos.toByteArray()
+        url_thing = Base64.encodeToString(b, Base64.DEFAULT) //try
+    }
+
     fun setUploadedImageUrl(url: String) {
         //for testing
         //var url = "https://f4.bcbits.com/img/a0305803156_65"
+        val ulrn = URL(url)
+        val con = ulrn.openConnection() as HttpURLConnection
+        val `is` = con.inputStream
+        val bmp = BitmapFactory.decodeStream(`is`)
+        encodeImage(bmp)
+
 
         youtube_video_id = ""
         URL_link = ""
