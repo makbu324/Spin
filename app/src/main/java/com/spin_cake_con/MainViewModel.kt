@@ -80,7 +80,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
     private val allowGoBack = MutableLiveData(false)
     private val showSettingsIcon = MutableLiveData(true)
     private val showLinkIcon = MutableLiveData(true)
-    private val searchResults = MutableLiveData<List<SearchResult>>(emptyList())
+    val searchResults = MutableLiveData<List<String>>(emptyList())
     private val error = MutableLiveData(false)
     var youtube_id = ""
     var image_album_cover = ""
@@ -149,7 +149,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
             })
     }
 
-    fun getSearchResults(): LiveData<List<SearchResult>> = searchResults
+    fun getSearchResults(): LiveData<List<String>> = searchResults
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun encodeImageAndGuess(bm: Bitmap) {
@@ -305,7 +305,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
         } else {
             Log.i("Response!", "null response body")
         }
-
+        searchResults.postValue(resultDataList)
         // Return resultDataList outside of the callback
         return@withContext resultDataList
     }

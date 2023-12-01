@@ -12,7 +12,7 @@ import im.delight.android.webview.AdvancedWebView
 
 class SearchPagesAdapter(private val context: Fragment) : PagerAdapter() {
 
-    private var searchResultPages = emptyList<SearchResult>()
+    private var searchResultPages = emptyList<String>()
     private var webViewPages = emptyArray<WebView?>()
 
     override fun isViewFromObject(view: View, obj: Any): Boolean {
@@ -21,7 +21,6 @@ class SearchPagesAdapter(private val context: Fragment) : PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val result = searchResultPages[position]
-        Log.d("ImageSearcher", "ResultPage - ${result.engineTitle} loading: ${result.searchUrl}")
         val view = AdvancedWebView(context.activity)
         view.setThirdPartyCookiesEnabled(false)
         view.setCookiesEnabled(false)
@@ -29,7 +28,6 @@ class SearchPagesAdapter(private val context: Fragment) : PagerAdapter() {
         view.settings.domStorageEnabled = false
         view.settings.cacheMode = WebSettings.LOAD_NO_CACHE
         view.addHttpHeader("DNT", "1") // Do not track
-        view.loadUrl(result.searchUrl)
         context.registerForContextMenu(view)
         webViewPages.set(position, view)
         container.addView(view)
@@ -44,13 +42,10 @@ class SearchPagesAdapter(private val context: Fragment) : PagerAdapter() {
         return "" //searchResultPages[position].engineTitle
     }
 
-    fun getPageIcon(position: Int): Drawable {
-        return searchResultPages[position].engineIcon
-    }
 
     override fun getCount() = searchResultPages.size
 
-    fun setSearchResults(results: List<SearchResult>) {
+    fun setSearchResults(results: List<String>) {
         searchResultPages = results
         webViewPages = arrayOfNulls(results.size)
     }
