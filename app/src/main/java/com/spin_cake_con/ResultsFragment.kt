@@ -10,6 +10,7 @@ import android.view.*
 import android.webkit.URLUtil
 import android.webkit.WebView
 import android.webkit.WebView.HitTestResult
+import android.widget.Button
 import android.widget.ImageView
 import androidx.annotation.Keep
 import androidx.fragment.app.Fragment
@@ -48,9 +49,18 @@ class ResultsFragment : Fragment() {
         viewModel.setShowSettingsIcon(false)
         viewModel.setShowLinkIcon(true)
         viewModel.fragmentTag = HomeFragment.TAG
+        var linkButton: Button = view.findViewById(R.id.openLink)
+
 
         pagesAdapter = SearchPagesAdapter(this).apply {
             setSearchResults(viewModel.getSearchResults().value!!)
+        }
+
+        // open album in spotify button
+        linkButton.setOnClickListener {
+            val url = viewModel.getSearchResults().value!![3]
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
         }
 
 

@@ -301,6 +301,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
                     4
                 ).toString()
             )
+            resultDataList.add(response.body()!!.albums!!.items[i].external_urls.spotify)
             Log.d("album result!!", resultDataList.toString())
         } else {
             Log.i("Response!", "null response body")
