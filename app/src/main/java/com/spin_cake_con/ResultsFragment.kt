@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
+import com.google.android.material.textview.MaterialTextView
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -60,21 +61,11 @@ class ResultsFragment : Fragment() {
             setSearchResults(viewModel.getSearchResults().value!!)
         }
 
-        viewPager = view.findViewById<ViewPager>(R.id.viewPager).apply {
-            adapter = pagesAdapter
-            offscreenPageLimit = pagesAdapter.count - 1
-        }
 
-        val youTubePlayerView = view.findViewById<YouTubePlayerView>(R.id.youtube_player_view)
+
 
         Thread.sleep(2000)
-        lifecycle.addObserver(youTubePlayerView)
-        youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
-            override fun onReady(youTubePlayer: YouTubePlayer) {
-                val videoId = viewModel.youtube_id
-                youTubePlayer.loadVideo(videoId, 0f)
-            }
-        })
+
 
         //Dialog for showing album
         val child: View = layoutInflater.inflate(R.layout.suggested_album_dialog, null)
@@ -87,22 +78,11 @@ class ResultsFragment : Fragment() {
 
 
         }
-        view.findViewById<EditText>(R.id.hihihi).setText(viewModel.url_thing)
 
-        val builder: AlertDialog.Builder = AlertDialog.Builder(view.context)
-        builder
-            .setTitle(viewModel.url_thing)
-            .setMessage(viewModel.album + " - by " + viewModel.artist)
-            .setView(child)
-            .setPositiveButton("Positive") { dialog, which ->
-                // Do something.
-            }
-            .setNegativeButton("Negative") { dialog, which ->
-                // Do something else.
-            }
+        view.findViewById<MaterialTextView>(R.id.hihihi).setText(viewModel.url_thing)
+        Log.d("copy this", viewModel.url_thing)
 
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
+
 
 
     }
