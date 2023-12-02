@@ -22,6 +22,7 @@ import androidx.annotation.Keep
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import com.aminography.choosephotohelper.ChoosePhotoHelper
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -69,12 +70,27 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
         mapView.getMapAsync(this)
 
         val clickWood: MediaPlayer = MediaPlayer.create(view.context, R.raw.vinyl_on)
+        val libraryPullup: MediaPlayer = MediaPlayer.create(view.context, R.raw.wishlist_rollin)
 
 
         view.findViewById<Button>(R.id.camera_button).setOnClickListener {
             clickWood.start()
             choosePhotoHelper?.takePhoto()
             requestPermissions(arrayOf(android.Manifest.permission.CAMERA), 101)
+        }
+
+        view.findViewById<Button>(R.id.home_button).setOnClickListener {
+            val fragmentTransaction = parentFragmentManager.beginTransaction()
+            fragmentTransaction.setCustomAnimations(
+                R.anim.enter_from_bottom,
+                R.anim.exit_to_top,
+                R.anim.enter_from_top,
+                R.anim.exit_to_bottom
+            )
+            fragmentTransaction.replace(R.id.nav_host, WishlistFragment(), WishlistFragment.TAG)
+            fragmentTransaction.addToBackStack(ResultsFragment.TAG)
+            fragmentTransaction.commit()
+            libraryPullup.start()
         }
 
         choosePhotoHelper = ChoosePhotoHelper.with(this)

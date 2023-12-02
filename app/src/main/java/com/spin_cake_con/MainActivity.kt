@@ -2,13 +2,12 @@ package com.spin_cake_con
 
 import MainViewModel
 import android.Manifest
-import android.media.MediaPlayer
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
@@ -86,4 +85,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+
 }

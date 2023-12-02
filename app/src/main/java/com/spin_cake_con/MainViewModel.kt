@@ -3,16 +3,13 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.AsyncTask
 import android.os.Build
 import android.util.Base64
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import com.example.spotifyapitest.googleapi.AnnotateImageRequest
@@ -27,17 +24,14 @@ import com.example.spotifyapitest.spotifyapi.SpotifyApiService
 import com.example.spotifyapitest.spotifyapi.Token
 import com.example.spotifyapitest.spotifyapi.UserResponse
 import com.google.gson.Gson
-import com.spin_cake_con.R
 import com.spin_cake_con.ImageUploader
 import com.spin_cake_con.TransfershUploader
-import com.spin_cake_con.SearchResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.jsoup.Jsoup
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,27 +41,6 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
-
-var youtube_video_id: String = ""
-var URL_link: String = ""
-var HTML_hi = ""
-var avoid_this_please = false
-var ignore_this_artist = true
-var artists_array = mutableListOf<String>()
-var try_this_one = ""
-var comb = mutableListOf<String>()
-var skip_this = false
-
-var music_brainz_search = false
-var music_brainz_link = ""
-var image_source = ""
-var genre_sys = ""
-var artist_sys = ""
-var duration_sys = ""
-var album_sys = ""
-
 
 
 class MainViewModel(private val context: Application) : AndroidViewModel(context) {
@@ -75,23 +48,16 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
     private var prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
     private val imageUploader: ImageUploader = TransfershUploader()
     private val uploadedUrl = MutableLiveData("")
-    private val imgPath = MutableLiveData("")
+    private var imgPath = MutableLiveData("")
     private val appbarTitle = MutableLiveData("SPIN")
     private val allowGoBack = MutableLiveData(false)
     private val showSettingsIcon = MutableLiveData(true)
     private val showLinkIcon = MutableLiveData(true)
     val searchResults = MutableLiveData<List<String>>(emptyList())
     private val error = MutableLiveData(false)
-    var youtube_id = ""
-    var image_album_cover = ""
-    var artist = ""
-    var duration = ""
-    var genre = ""
-    var album = ""
-    var search_keyword = ""
-    var list_of_keyword = mutableListOf<String>()
     var url_thing = ""
     var SPOTIFY_ACCESS_TOKEN = ""
+    var go_to_wishlist = false
 
     var fragmentTag = ""
         get() = field
@@ -330,8 +296,9 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
 
     fun setImageFilePath(path: String) {
         imgPath.value = path
-        croppedImgPath = path // while there is no editing
+        croppedImgPath = path
     }
 
     fun getImageFilePath(): LiveData<String> = imgPath
+
 }
