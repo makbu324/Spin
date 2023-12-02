@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,6 +11,7 @@
         android:id="@+id/appbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/nav_host"
         app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
@@ -25,5 +26,6 @@
         android:name="com.spin_cake_con.HomeFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        app:layout_constraintTop_toBottomOf="@+id/appbar_layout" />
+</androidx.constraintlayout.widget.ConstraintLayout>

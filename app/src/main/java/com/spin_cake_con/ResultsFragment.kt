@@ -2,9 +2,11 @@ package com.spin_cake_con
 
 import MainViewModel
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.util.Base64
 import android.util.Log
 import android.view.*
 import android.webkit.URLUtil
@@ -76,7 +78,10 @@ class ResultsFragment : Fragment() {
         view.findViewById<MaterialTextView>(R.id.yearTextView).text = viewModel.searchResults.value!![2]
 
 
-
+        //Mak: display album image (placeholder: image taken by user) -> Chris, pls fix
+        val imageBytes = Base64.decode(viewModel.url_thing, Base64.DEFAULT)
+        val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+        view.findViewById<ImageView>(R.id.album_image).setImageBitmap(decodedImage)
 
 
 

@@ -231,10 +231,10 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
         Log.d("album guesses for spot", albumGuesses.toString())
         var queryString = ""
         var resultDataList = mutableListOf<String>()
-        var censoredWords = listOf(
+        var censoredWords = listOf( //Mak: I added more things to avoid
             "Album", "Cover", "Vinyl", "USA", "Import",
             "LP", "CD", "Soundtrack", "Phonograph record", "German Import", "Studio album", "Rock", "Indie Rock", "Hip hop music"
-            ,"Record Producer"
+            ,"Record Producer", "Tiktok", "Youtube", "Rap", "NPR", "Instagram", "Poster", "poster"
         )
 
         // get access key - post request
