@@ -2,11 +2,13 @@ package com.spin_cake_con
 
 import MainViewModel
 import android.app.Activity
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.annotation.Keep
@@ -49,8 +51,11 @@ class EditFragment : Fragment() {
         viewModel.setShowLinkIcon(false)
         viewModel.fragmentTag = HomeFragment.TAG
 
+        val searchClick: MediaPlayer = MediaPlayer.create(context, R.raw.wood_click)
+
         val rootView: View = inflater.inflate(R.layout.fragment_edit_pic, container, false)
-        rootView.findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
+        rootView.findViewById<ImageView>(R.id.search_now).setOnClickListener {
+            searchClick.start()
             cropAndSaveImage()
             progressBar.visibility = View.VISIBLE
         }

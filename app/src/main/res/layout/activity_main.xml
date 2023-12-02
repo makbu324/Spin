@@ -14,11 +14,11 @@
         app:layout_constraintBottom_toTopOf="@+id/nav_host"
         app:elevation="0dp">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            />
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/spin_gif"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.fragment.app.FragmentContainerView

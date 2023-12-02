@@ -3,6 +3,7 @@ package com.spin_cake_con
 import MainViewModel
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -52,6 +53,8 @@ class ResultsFragment : Fragment() {
         viewModel.setShowLinkIcon(true)
         viewModel.fragmentTag = HomeFragment.TAG
         var linkButton: Button = view.findViewById(R.id.openLink)
+        val play_this: MediaPlayer = MediaPlayer.create(context, R.raw.scan_success)
+        play_this.start()
 
 
         pagesAdapter = SearchPagesAdapter(this).apply {

@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.location.LocationRequest
 import android.location.Location
 import android.location.LocationManager
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -67,8 +68,11 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
 
+        val clickWood: MediaPlayer = MediaPlayer.create(view.context, R.raw.vinyl_on)
+
 
         view.findViewById<Button>(R.id.camera_button).setOnClickListener {
+            clickWood.start()
             choosePhotoHelper?.takePhoto()
             requestPermissions(arrayOf(android.Manifest.permission.CAMERA), 101)
         }

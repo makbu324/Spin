@@ -2,21 +2,24 @@ package com.spin_cake_con
 
 import MainViewModel
 import android.Manifest
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.fragment.app.commit
+import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
 
 class MainActivity : AppCompatActivity() {
     private lateinit var appbarLayout: AppBarLayout
+    private  lateinit var imageView: ImageView
     private val viewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(findViewById(R.id.toolbar))
 
         appbarLayout = findViewById(R.id.appbar_layout)
 
@@ -38,9 +41,11 @@ class MainActivity : AppCompatActivity() {
 
         requestPermissionLauncher.launch(Manifest.permission.CAMERA)
 
-        viewModel.getAppbarTitle().observe(this) {
-            title = "SPIN"
-        }
+        appbarLayout.setBackgroundResource(R.drawable.app_bar_thing)
+
+        imageView = findViewById(R.id.spin_gif)
+
+        Glide.with(this).load(R.drawable.spin_see).into(imageView)
 
         viewModel.getAllowGoBack().observe(this) {
             supportActionBar?.setDisplayHomeAsUpEnabled(it)
