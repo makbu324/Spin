@@ -1,22 +1,20 @@
 package com.spin_cake_con
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.Keep
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.spin_cake_con.databinding.FragmentWishlistBinding
-import kotlinx.coroutines.launch
-
+import MainViewModel
 @Keep
 class WishlistFragment: Fragment() {
     private var _binding: FragmentWishlistBinding? = null
+    private val viewModel by activityViewModels<MainViewModel>()
+
     companion object {
         const val TAG = "WishlistFragment"
     }
@@ -40,7 +38,7 @@ class WishlistFragment: Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
 
-        binding.recyclerView.adapter = WishlistAdapter()
+        binding.recyclerView.adapter = WishlistAdapter(viewModel.THE_WISHLIST)
 
         return binding.root
     }

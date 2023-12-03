@@ -24,8 +24,10 @@ import com.example.spotifyapitest.spotifyapi.SpotifyApiService
 import com.example.spotifyapitest.spotifyapi.Token
 import com.example.spotifyapitest.spotifyapi.UserResponse
 import com.google.gson.Gson
+import com.spin_cake_con.Album
 import com.spin_cake_con.ImageUploader
 import com.spin_cake_con.TransfershUploader
+import com.spin_cake_con.sgt_pepper_art
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -41,6 +43,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.UUID
 
 
 class MainViewModel(private val context: Application) : AndroidViewModel(context) {
@@ -58,6 +61,15 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
     var url_thing = ""
     var SPOTIFY_ACCESS_TOKEN = ""
     var go_to_wishlist = false
+
+    //Variable for keeping track of albums in our wishlist
+    var THE_WISHLIST = mutableListOf<Album>(Album(
+        artist = "The Beatles",
+        title = "Sgt. Pepper's Lonely Hearts Club Band",
+        year = "1967",
+        base64_album_art = sgt_pepper_art,
+        id = UUID.randomUUID()
+    ))
 
     var fragmentTag = ""
         get() = field
