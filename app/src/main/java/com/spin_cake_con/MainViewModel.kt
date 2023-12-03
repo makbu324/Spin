@@ -61,6 +61,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
     var url_thing = ""
     var SPOTIFY_ACCESS_TOKEN = ""
     var go_to_camera = false
+    private val allowHomeButton = MutableLiveData(false)
 
     //Variable for keeping track of albums in our wishlist
     var THE_WISHLIST = mutableListOf<Album>(Album(
@@ -83,18 +84,8 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
         showSettingsIcon.value = allow
     }
 
-    fun getShowSettingsIcon(): LiveData<Boolean> = showSettingsIcon
-
     fun setShowLinkIcon(allow: Boolean) {
         showLinkIcon.value = allow
-    }
-
-    fun getShowLinkIcon(): LiveData<Boolean> = showLinkIcon
-
-    fun getError(): LiveData<Boolean> = error
-
-    fun shownError() {
-        error.value = false
     }
 
     fun setAllowGoBack(allow: Boolean) {
@@ -103,6 +94,12 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
 
     fun getAllowGoBack(): LiveData<Boolean> = allowGoBack
 
+    fun setAllowHomeButton(allow: Boolean) {
+        allowHomeButton.value = allow
+    }
+
+    fun getAllowHomeButton(): LiveData<Boolean> = allowHomeButton
+
     fun setAppbarTitle(title: String) {
         if (title.isBlank())
             appbarTitle.value = "SPIN"
@@ -110,7 +107,6 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
             appbarTitle.value = title
     }
 
-    fun getAppbarTitle(): LiveData<String> = appbarTitle
 
     fun uploadImage() {
         imageUploader.upload(
@@ -304,7 +300,6 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
         error.postValue(true)
     }
 
-    fun getUploadedImageUrl(): LiveData<String> = uploadedUrl
 
     fun setImageFilePath(path: String) {
         imgPath.value = path

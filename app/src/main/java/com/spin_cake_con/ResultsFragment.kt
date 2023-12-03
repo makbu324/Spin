@@ -50,6 +50,7 @@ class ResultsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.setAllowHomeButton(true)
         viewModel.setAppbarTitle("")
         viewModel.setAllowGoBack(true)
         viewModel.setShowSettingsIcon(false)
@@ -167,5 +168,10 @@ class ResultsFragment : Fragment() {
 
     fun getCurrentWebView(): WebView {
         return pagesAdapter.getViewPage(viewPager.currentItem)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.setAllowHomeButton(false)
     }
 }

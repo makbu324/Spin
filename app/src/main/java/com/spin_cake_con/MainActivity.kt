@@ -2,18 +2,22 @@ package com.spin_cake_con
 
 import MainViewModel
 import android.Manifest
+import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.commit
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
 
 class MainActivity : AppCompatActivity() {
     private lateinit var appbarLayout: AppBarLayout
+    private lateinit var homeButton: Button
     private  lateinit var imageView: ImageView
     private val viewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +25,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         appbarLayout = findViewById(R.id.appbar_layout)
+        homeButton = findViewById<Button>(R.id.home_button)
+
+        this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         val requestPermissionLauncher =
             registerForActivityResult(
@@ -49,6 +56,21 @@ class MainActivity : AppCompatActivity() {
         viewModel.getAllowGoBack().observe(this) {
             supportActionBar?.setDisplayHomeAsUpEnabled(it)
             supportActionBar?.setDisplayShowHomeEnabled(it)
+        }
+
+        viewModel.getAllowHomeButton().observe(this) {
+            if (it) {
+                homeButton.isVisible = true
+                homeButton.isClickable = true
+            } else {
+                homeButton.isVisible = false
+                homeButton.isClickable = false
+            }
+        }
+
+        homeButton.setOnClickListener{
+            supportFragmentManager.popBackStack()
+            supportFragmentManager.popBackStack()
         }
 
         //...

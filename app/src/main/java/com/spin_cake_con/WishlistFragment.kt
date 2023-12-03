@@ -10,6 +10,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.spin_cake_con.databinding.FragmentWishlistBinding
 import MainViewModel
+import android.widget.Button
+import android.widget.ImageButton
+
 @Keep
 class WishlistFragment: Fragment() {
     private var _binding: FragmentWishlistBinding? = null
@@ -43,9 +46,15 @@ class WishlistFragment: Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.setAllowHomeButton(true)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        viewModel.setAllowHomeButton(false)
     }
 
 }

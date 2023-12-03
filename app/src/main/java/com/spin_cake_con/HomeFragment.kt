@@ -54,7 +54,7 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.setAppbarTitle("")
+        viewModel.setAppbarTitle("Spin")
         viewModel.setAllowGoBack(false)
         viewModel.setShowSettingsIcon(true)
         viewModel.setShowLinkIcon(false)
