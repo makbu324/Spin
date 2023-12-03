@@ -19,10 +19,13 @@ import androidx.annotation.Keep
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager.widget.ViewPager
+import com.aminography.choosephotohelper.ChoosePhotoHelper
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textview.MaterialTextView
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import im.delight.android.webview.AdvancedWebView
+import java.util.UUID
 
 
 @Keep
@@ -54,6 +57,7 @@ class ResultsFragment : Fragment() {
         viewModel.fragmentTag = HomeFragment.TAG
         var linkButton: Button = view.findViewById(R.id.openLink)
         val play_this: MediaPlayer = MediaPlayer.create(context, R.raw.scan_success)
+        val clickWood: MediaPlayer = MediaPlayer.create(view.context, R.raw.vinyl_on)
         play_this.start()
 
 
@@ -66,6 +70,29 @@ class ResultsFragment : Fragment() {
             val url = viewModel.getSearchResults().value!![3]
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             startActivity(intent)
+        }
+
+        //Mak: add album to wishlist
+        view.findViewById<Button>(R.id.add_to_wishlist).setOnClickListener {
+            viewModel.THE_WISHLIST += Album(
+                artist = viewModel.searchResults.value!![1],
+                title = viewModel.searchResults.value!![0],
+                year = viewModel.searchResults.value!![2],
+                base64_album_art = viewModel.url_thing,
+                id = UUID.randomUUID()
+            )
+            Snackbar.make(
+                view,
+                "ADDED TO WISHLIST",
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+
+        view.findViewById<Button>(R.id.try_again).setOnClickListener {
+            viewModel.go_to_camera = true
+            parentFragmentManager.popBackStack()
+            parentFragmentManager.popBackStack()
+            requestPermissions(arrayOf(android.Manifest.permission.CAMERA), 101)
         }
 
 

@@ -93,6 +93,13 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
             .build {
                 viewModel.setImageFilePath(it.orEmpty())
             }
+
+        if (viewModel.go_to_camera) {
+            viewModel.go_to_camera = false
+            clickWood.start()
+            choosePhotoHelper?.takePhoto()
+            requestPermissions(arrayOf(android.Manifest.permission.CAMERA), 101)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -60,7 +60,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
     private val error = MutableLiveData(false)
     var url_thing = ""
     var SPOTIFY_ACCESS_TOKEN = ""
-    var go_to_wishlist = false
+    var go_to_camera = false
 
     //Variable for keeping track of albums in our wishlist
     var THE_WISHLIST = mutableListOf<Album>(Album(
