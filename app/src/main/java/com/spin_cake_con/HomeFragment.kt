@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.annotation.Keep
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -67,13 +68,13 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
         val libraryPullup: MediaPlayer = MediaPlayer.create(view.context, R.raw.wishlist_rollin)
 
 
-        view.findViewById<Button>(R.id.camera_button).setOnClickListener {
+        view.findViewById<ImageButton>(R.id.camera_button).setOnClickListener {
             clickWood.start()
             choosePhotoHelper?.takePhoto()
             requestPermissions(arrayOf(android.Manifest.permission.CAMERA), 101)
         }
 
-        view.findViewById<Button>(R.id.home_button).setOnClickListener {
+        view.findViewById<ImageButton>(R.id.wishlist_button).setOnClickListener {
             val fragmentTransaction = parentFragmentManager.beginTransaction()
             fragmentTransaction.setCustomAnimations(
                 R.anim.enter_from_bottom,

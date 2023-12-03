@@ -28,21 +28,24 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/mapView">
 
-        <Button
+        <ImageButton
             android:id="@+id/camera_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/camera_icon" />
 
-        <Button
-            android:id="@+id/home_button"
+        <ImageButton
+            android:id="@+id/wishlist_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
             android:layout_weight="1"
-            android:background="@drawable/home_icon" />
+            android:src="@null"
+            android:background="@drawable/wishlist_icon" />
 
-        <Button
+        <ImageButton
             android:id="@+id/settings_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
