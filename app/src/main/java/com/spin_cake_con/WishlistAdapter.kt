@@ -20,6 +20,8 @@ class CrimeHolder(
             binding.AlbumTitle.text = album.title
             binding.ArtistName.text = album.artist
             binding.Year.text = album.year
+        } else {
+            binding.byArtist.text = ""
         }
     }
 }
