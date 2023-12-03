@@ -38,7 +38,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textStyle="bold"
-            android:text="Album Title"
             android:textAppearance="?attr/textAppearanceHeadline6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -50,13 +49,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textAppearance="?attr/textAppearanceHeadline6"
+                android:id="@+id/by_artist"
                 android:text="By "/>
             <TextView
                 android:id="@+id/Artist_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textStyle="italic"
-                android:text="Artist Name"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -65,7 +64,6 @@
             android:id="@+id/Year"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Year"
             android:textAppearance="?attr/textAppearanceHeadline6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -12,13 +12,15 @@ class CrimeHolder(
     private val binding: WishlistItemBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(album: Album) {
-        val imageBytes = Base64.decode(album.base64_album_art, Base64.DEFAULT)
-        val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-        binding.albumImage.setImageBitmap(decodedImage)
+        if (album.title != "") {
+            val imageBytes = Base64.decode(album.base64_album_art, Base64.DEFAULT)
+            val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            binding.albumImage.setImageBitmap(decodedImage)
 
-        binding.AlbumTitle.text = album.title
-        binding.ArtistName.text = album.artist
-        binding.Year.text = album.year
+            binding.AlbumTitle.text = album.title
+            binding.ArtistName.text = album.artist
+            binding.Year.text = album.year
+        }
     }
 }
 

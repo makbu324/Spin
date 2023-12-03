@@ -70,6 +70,12 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
         year = "1967",
         base64_album_art = sgt_pepper_art,
         id = UUID.randomUUID()
+    ),Album(
+        artist = "",
+        title = "",
+        year = "",
+        base64_album_art = "",
+        id = UUID.randomUUID()
     ))
 
     var fragmentTag = ""

@@ -75,13 +75,13 @@ class ResultsFragment : Fragment() {
 
         //Mak: add album to wishlist
         view.findViewById<Button>(R.id.add_to_wishlist).setOnClickListener {
-            viewModel.THE_WISHLIST += Album(
+            viewModel.THE_WISHLIST.add(0, Album(
                 artist = viewModel.searchResults.value!![1],
                 title = viewModel.searchResults.value!![0],
                 year = viewModel.searchResults.value!![2],
                 base64_album_art = viewModel.url_thing,
                 id = UUID.randomUUID()
-            )
+            ))
             Snackbar.make(
                 view,
                 "ADDED TO WISHLIST",

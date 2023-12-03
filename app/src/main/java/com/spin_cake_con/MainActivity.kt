@@ -3,6 +3,7 @@ package com.spin_cake_con
 import MainViewModel
 import android.Manifest
 import android.content.pm.ActivityInfo
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity() {
         homeButton = findViewById<Button>(R.id.home_button)
 
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
+        val clickHome: MediaPlayer = MediaPlayer.create(this, R.raw.search_wood)
 
         val requestPermissionLauncher =
             registerForActivityResult(
@@ -69,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         homeButton.setOnClickListener{
+            clickHome.start()
             supportFragmentManager.popBackStack()
             supportFragmentManager.popBackStack()
         }
