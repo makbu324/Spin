@@ -21,12 +21,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.aminography.choosephotohelper.ChoosePhotoHelper
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
 @Keep
@@ -42,7 +46,17 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private var latit = 0.0
     private var longit = 0.0
+    private lateinit var userLocation: Marker
+    private var locationRequest = LocationRequest.Builder.IMPLICIT_MIN_UPDATE_INTERVAL
 
+    private val locationCallback = object:LocationCallback(){
+        override fun onLocationResult(result: LocationResult) {
+            super.onLocationResult(result)
+            result.locations.lastOrNull()?.let{location ->
+                updateCurrentLocation(location.latitude, location.longitude)
+            }
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -140,10 +154,10 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
         googleMap = map
         Log.d("MapDebug", "Map is ready")
         fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(requireContext())
-        getCurrentLocation()
+        startLocationUpdates()
     }
 
-    private fun getCurrentLocation(){
+    private fun startLocationUpdates(){
         if(checkPermissions() && isLocationEnabled()){
             if (ActivityCompat.checkSelfPermission(
                     requireContext(),
@@ -153,28 +167,31 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                requestPerms()
-                return
+                startLocationUpdates()
             }
-            fusedLocationProviderClient.lastLocation.addOnCompleteListener { task ->
-                if(task.isSuccessful){
-                    val location: Location? = task.result
-                    if (location != null) {
-                        latit = location.latitude
-                        longit = location.longitude
-                        val curLatlng = LatLng(latit, longit)
-                        googleMap.addMarker(MarkerOptions().position(curLatlng).title("Current Location").snippet("Lat: $latit, Long: $longit"))
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curLatlng, 16f))
-                    } else {
-                        Log.e("LocError", "Error Getting Location: ${task.exception}")
-                    }
-                } else {
-
-                }
-            }
+            fusedLocationProviderClient.requestLocationUpdates(createLocationRequest(), locationCallback, null)
         } else {
             requestPerms()
         }
+    }
+
+    private fun createLocationRequest(): LocationRequest{
+        return LocationRequest.create().apply{
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            interval = 10000
+        }
+    }
+
+    private fun updateCurrentLocation(latitude: Double, longitude: Double){
+        latit = latitude
+        longit = longitude
+        val curLatlng = LatLng(latit, longit)
+        if (!::userLocation.isInitialized){
+            userLocation = googleMap.addMarker(MarkerOptions().position(curLatlng).title("Current Location"))!!
+        } else {
+            userLocation.position = curLatlng
+        }
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curLatlng, 12f))
     }
 
     private fun isLocationEnabled():Boolean{
@@ -203,6 +220,14 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
         }
     }
 
+    override fun onStop(){
+        super.onStop()
+        stopLocationUpdates()
+    }
+
+    private fun stopLocationUpdates(){
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+    }
     private fun checkPermissions(): Boolean{
         return (ActivityCompat.checkSelfPermission(requireContext(),
             android.Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED
