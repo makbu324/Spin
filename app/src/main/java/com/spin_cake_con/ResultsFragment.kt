@@ -36,8 +36,6 @@ class ResultsFragment : Fragment() {
     }
 
     private val viewModel by activityViewModels<MainViewModel>()
-    private lateinit var viewPager: ViewPager
-    private lateinit var pagesAdapter: SearchPagesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,11 +58,6 @@ class ResultsFragment : Fragment() {
         val play_this: MediaPlayer = MediaPlayer.create(context, R.raw.scan_success)
         if (viewModel.sound_effects_on)
             play_this.start()
-
-
-        pagesAdapter = SearchPagesAdapter(this).apply {
-            setSearchResults(viewModel.getSearchResults().value!!)
-        }
 
         // open album in spotify button
         linkButton.setOnClickListener {
@@ -119,58 +112,6 @@ class ResultsFragment : Fragment() {
 
 
 
-    }
-
-    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
-        super.onCreateContextMenu(menu, v, menuInfo)
-        val webView = getCurrentWebView()
-        val result = webView.hitTestResult
-        val url = result.extra
-        var link = url
-        var isLink = false
-        val filename = URLUtil.guessFileName(url, null, null)
-
-        if ((result.type == HitTestResult.IMAGE_TYPE ||
-                    result.type == HitTestResult.SRC_IMAGE_ANCHOR_TYPE) &&
-            URLUtil.isNetworkUrl(url)
-        ) {
-            Log.d(TAG, "Long clicked image $url")
-            menu.add(0, 1, 0, "R.string.save_image").setOnMenuItemClickListener {
-                Log.d(TAG, "Downloading image $filename from $url")
-                AdvancedWebView.handleDownload(context, url, filename)
-                true
-            }
-
-            val message = Handler().obtainMessage()
-            webView.requestFocusNodeHref(message)
-            val maybeLink = message.data.getString("url")
-            maybeLink?.let {
-                Log.d(TAG, "Found link on image $maybeLink")
-                isLink = true
-                link = maybeLink
-            }
-        }
-        if (isLink || (result.type == HitTestResult.SRC_ANCHOR_TYPE && URLUtil.isNetworkUrl(link))) {
-            Log.d(TAG, "Long clicked link $link")
-            menu.add(0, 2, 0, "R.string.open_external_browser").setOnMenuItemClickListener {
-                openBrowser(link)
-                true
-            }
-        }
-    }
-
-    fun openBrowser() {
-        openBrowser(getCurrentWebView().url)
-    }
-
-    fun openBrowser(url: String?) {
-        val webpage: Uri = Uri.parse(url)
-        val intent = Intent(Intent.ACTION_VIEW, webpage)
-        startActivity(intent)
-    }
-
-    fun getCurrentWebView(): WebView {
-        return pagesAdapter.getViewPage(viewPager.currentItem)
     }
 
     override fun onDestroyView() {

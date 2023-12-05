@@ -48,9 +48,7 @@ import java.util.UUID
 
 class MainViewModel(private val context: Application) : AndroidViewModel(context) {
 
-    private var prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
     private val imageUploader: ImageUploader = TransfershUploader()
-    private val uploadedUrl = MutableLiveData("")
     private var imgPath = MutableLiveData("")
     private val appbarTitle = MutableLiveData("SPIN")
     private val allowGoBack = MutableLiveData(false)
