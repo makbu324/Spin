@@ -62,21 +62,30 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
     var SPOTIFY_ACCESS_TOKEN = ""
     var go_to_camera = false
     private val allowHomeButton = MutableLiveData(false)
+    private val allowBackButton = MutableLiveData(false)
 
+    //***********Store these for database********************
+    var sound_effects_on = true
     //Variable for keeping track of albums in our wishlist
     var THE_WISHLIST = mutableListOf<Album>(Album(
         artist = "The Beatles",
         title = "Sgt. Pepper's Lonely Hearts Club Band",
         year = "1967",
         base64_album_art = sgt_pepper_art,
-        id = UUID.randomUUID()
+        id = UUID.randomUUID(),
+        link = "https://open.spotify.com/album/6QaVfG1pHYl1z15ZxkvVDW"
     ),Album(
         artist = "",
         title = "",
         year = "",
         base64_album_art = "",
-        id = UUID.randomUUID()
+        id = UUID.randomUUID(),
+        link = ""
     ))
+    //For viewing album in Album Info fragment
+    var album_to_view = THE_WISHLIST[1]
+
+    //*******************************************************
 
     var fragmentTag = ""
         get() = field
@@ -105,6 +114,12 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
     }
 
     fun getAllowHomeButton(): LiveData<Boolean> = allowHomeButton
+
+    fun setAllowBackButton(allow: Boolean) {
+        allowBackButton.value = allow
+    }
+
+    fun getAllowBackButton(): LiveData<Boolean> = allowBackButton
 
     fun setAppbarTitle(title: String) {
         if (title.isBlank())

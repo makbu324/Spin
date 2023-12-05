@@ -58,8 +58,8 @@ class ResultsFragment : Fragment() {
         viewModel.fragmentTag = HomeFragment.TAG
         var linkButton: Button = view.findViewById(R.id.openLink)
         val play_this: MediaPlayer = MediaPlayer.create(context, R.raw.scan_success)
-        val clickWood: MediaPlayer = MediaPlayer.create(view.context, R.raw.vinyl_on)
-        play_this.start()
+        if (viewModel.sound_effects_on)
+            play_this.start()
 
 
         pagesAdapter = SearchPagesAdapter(this).apply {
@@ -80,13 +80,15 @@ class ResultsFragment : Fragment() {
                 title = viewModel.searchResults.value!![0],
                 year = viewModel.searchResults.value!![2],
                 base64_album_art = viewModel.url_thing,
-                id = UUID.randomUUID()
+                id = UUID.randomUUID(),
+                link = viewModel.searchResults.value!![3]
             ))
             Snackbar.make(
                 view,
                 "ADDED TO WISHLIST",
                 Snackbar.LENGTH_LONG
             ).show()
+            view.findViewById<Button>(R.id.add_to_wishlist).isClickable = false
         }
 
         view.findViewById<Button>(R.id.try_again).setOnClickListener {
@@ -94,6 +96,7 @@ class ResultsFragment : Fragment() {
             parentFragmentManager.popBackStack()
             parentFragmentManager.popBackStack()
             requestPermissions(arrayOf(android.Manifest.permission.CAMERA), 101)
+            view.findViewById<Button>(R.id.try_again).isClickable = false
         }
 
 

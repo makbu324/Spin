@@ -19,6 +19,7 @@ import com.google.android.material.appbar.AppBarLayout
 class MainActivity : AppCompatActivity() {
     private lateinit var appbarLayout: AppBarLayout
     private lateinit var homeButton: Button
+    private lateinit var backButton: Button
     private  lateinit var imageView: ImageView
     private val viewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,10 +28,12 @@ class MainActivity : AppCompatActivity() {
 
         appbarLayout = findViewById(R.id.appbar_layout)
         homeButton = findViewById<Button>(R.id.home_button)
+        backButton = findViewById<Button>(R.id.back_button)
 
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         val clickHome: MediaPlayer = MediaPlayer.create(this, R.raw.search_wood)
+        val shelfBack: MediaPlayer = MediaPlayer.create(this, R.raw.shelf_back)
 
         val requestPermissionLauncher =
             registerForActivityResult(
@@ -71,9 +74,26 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        viewModel.getAllowBackButton().observe(this) {
+            if (it) {
+                backButton.isVisible = true
+                backButton.isClickable = true
+            } else {
+                backButton.isVisible = false
+                backButton.isClickable = false
+            }
+        }
+
         homeButton.setOnClickListener{
-            clickHome.start()
+            if (viewModel.sound_effects_on)
+                clickHome.start()
             supportFragmentManager.popBackStack()
+            supportFragmentManager.popBackStack()
+        }
+
+        backButton.setOnClickListener{
+            if (viewModel.sound_effects_on)
+                shelfBack.start()
             supportFragmentManager.popBackStack()
         }
 

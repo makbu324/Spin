@@ -41,7 +41,7 @@ class WishlistFragment: Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
 
-        binding.recyclerView.adapter = WishlistAdapter(viewModel.THE_WISHLIST)
+        binding.recyclerView.adapter = WishlistAdapter(viewModel.THE_WISHLIST, parentFragmentManager, viewModel)
 
         return binding.root
     }

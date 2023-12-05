@@ -55,9 +55,11 @@ class EditFragment : Fragment() {
 
         val rootView: View = inflater.inflate(R.layout.fragment_edit_pic, container, false)
         rootView.findViewById<ImageView>(R.id.search_now).setOnClickListener {
-            searchClick.start()
+            if (viewModel.sound_effects_on)
+                searchClick.start()
             cropAndSaveImage()
             progressBar.visibility = View.VISIBLE
+            rootView.findViewById<ImageView>(R.id.search_now).isClickable = false
         }
         blockingView = rootView.findViewById(R.id.blocking_view)
         progressBar = rootView.findViewById(R.id.progress_bar)

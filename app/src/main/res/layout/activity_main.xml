@@ -18,6 +18,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
+            <Button
+                android:id="@+id/back_button"
+                android:background="@drawable/go_back"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="left"
+                android:clickable="false"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="@+id/spin_gif"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageView
                 android:id="@+id/spin_gif"
                 android:layout_width="0dp"

@@ -66,10 +66,12 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
 
         val clickWood: MediaPlayer = MediaPlayer.create(view.context, R.raw.vinyl_on)
         val libraryPullup: MediaPlayer = MediaPlayer.create(view.context, R.raw.wishlist_rollin)
+        val gearSound: MediaPlayer = MediaPlayer.create(view.context, R.raw.gear_sound)
 
 
         view.findViewById<ImageButton>(R.id.camera_button).setOnClickListener {
-            clickWood.start()
+            if (viewModel.sound_effects_on)
+                clickWood.start()
             choosePhotoHelper?.takePhoto()
             requestPermissions(arrayOf(android.Manifest.permission.CAMERA), 101)
         }
@@ -85,7 +87,23 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
             fragmentTransaction.replace(R.id.nav_host, WishlistFragment(), WishlistFragment.TAG)
             fragmentTransaction.addToBackStack(ResultsFragment.TAG)
             fragmentTransaction.commit()
-            libraryPullup.start()
+            if (viewModel.sound_effects_on)
+                libraryPullup.start()
+        }
+
+        view.findViewById<ImageButton>(R.id.settings_button).setOnClickListener {
+            val fragmentTransaction = parentFragmentManager.beginTransaction()
+            fragmentTransaction.setCustomAnimations(
+                R.anim.enter_from_right,
+                R.anim.exit_to_left,
+                R.anim.enter_from_left,
+                R.anim.exit_to_right
+            )
+            fragmentTransaction.replace(R.id.nav_host, SettingsFragment(), SettingsFragment.TAG)
+            fragmentTransaction.addToBackStack(SettingsFragment.TAG)
+            fragmentTransaction.commit()
+            if (viewModel.sound_effects_on)
+                gearSound.start()
         }
 
         choosePhotoHelper = ChoosePhotoHelper.with(this)
@@ -97,7 +115,8 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
 
         if (viewModel.go_to_camera) {
             viewModel.go_to_camera = false
-            clickWood.start()
+            if (viewModel.sound_effects_on)
+                clickWood.start()
             choosePhotoHelper?.takePhoto()
             requestPermissions(arrayOf(android.Manifest.permission.CAMERA), 101)
         }
