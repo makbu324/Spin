@@ -2,7 +2,9 @@ package com.spin_cake_con
 
 import MainViewModel
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
 import android.view.LayoutInflater
@@ -10,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.webkit.WebView
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.Keep
@@ -52,10 +55,16 @@ class AlbumInfoFragment: Fragment() {
         view.findViewById<ImageView>(R.id.albumView).setImageBitmap(decodedImage)
 
         webView = view.findViewById<WebView>(R.id.webView)
-        webView.scrollX = 190
-        webView.scrollY = 160
-        webView.setInitialScale(110)
+        webView.scrollX = 365
+        webView.scrollY = 300
+        webView.setInitialScale(200)
         webView.loadUrl("https://www.getcdprices.com/search/?upc=" + ("$album_title $artist_name").replace(' ', '+'))
+
+        view.findViewById<Button>(R.id.spotify_link).setOnClickListener {
+            val url = viewModel.album_to_view.link
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
+        }
     }
 
     override fun onDestroyView() {
