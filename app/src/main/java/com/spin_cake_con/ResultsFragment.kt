@@ -6,25 +6,19 @@ import android.graphics.BitmapFactory
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.util.Base64
-import android.util.Log
-import android.view.*
-import android.webkit.URLUtil
-import android.webkit.WebView
-import android.webkit.WebView.HitTestResult
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import androidx.annotation.Keep
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.viewpager.widget.ViewPager
-import com.aminography.choosephotohelper.ChoosePhotoHelper
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 import com.google.android.material.textview.MaterialTextView
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-import im.delight.android.webview.AdvancedWebView
 import java.util.UUID
 
 
@@ -56,6 +50,8 @@ class ResultsFragment : Fragment() {
         viewModel.fragmentTag = HomeFragment.TAG
         var linkButton: Button = view.findViewById(R.id.openLink)
         val play_this: MediaPlayer = MediaPlayer.create(context, R.raw.scan_success)
+        val add_to_wishlist: MediaPlayer = MediaPlayer.create(context, R.raw.add_to_wish_list)
+        val wishlist_rolling: MediaPlayer = MediaPlayer.create(context, R.raw.wishlist_rollin)
         if (viewModel.sound_effects_on)
             play_this.start()
 
@@ -76,12 +72,38 @@ class ResultsFragment : Fragment() {
                 id = UUID.randomUUID(),
                 link = viewModel.searchResults.value!![3]
             ))
-            Snackbar.make(
+
+            val snackbar = Snackbar.make(
                 view,
-                "ADDED TO WISHLIST",
+                "",
                 Snackbar.LENGTH_LONG
-            ).show()
+            )
+            val snackbarLayout = snackbar.view as SnackbarLayout
+            val customSnackView: View = layoutInflater.inflate(R.layout.snackbar_custom_view, null)
+            snackbarLayout.setPadding(0, 0, 0, 0)
+            snackbarLayout.addView(customSnackView, 0);
+            snackbar.show();
+            val GoToWishlist = customSnackView.findViewById<Button>(R.id.gotoWishlistButton)
+            GoToWishlist.setOnClickListener {
+                val fragmentTransaction = parentFragmentManager.beginTransaction()
+                fragmentTransaction.setCustomAnimations(
+                    R.anim.enter_from_bottom,
+                    R.anim.exit_to_top,
+                    R.anim.enter_from_top,
+                    R.anim.exit_to_bottom
+                )
+                fragmentTransaction.replace(R.id.nav_host, WishlistFragment(), WishlistFragment.TAG)
+                fragmentTransaction.addToBackStack(WishlistFragment.TAG)
+                fragmentTransaction.commit()
+                if (viewModel.sound_effects_on)
+                    wishlist_rolling.start()
+                GoToWishlist.isClickable = false
+            }
+
+            //only clicked once
             view.findViewById<Button>(R.id.add_to_wishlist).isClickable = false
+            if (viewModel.sound_effects_on)
+                add_to_wishlist.start()
         }
 
         view.findViewById<Button>(R.id.try_again).setOnClickListener {

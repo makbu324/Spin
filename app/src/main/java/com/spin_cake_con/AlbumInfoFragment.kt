@@ -4,6 +4,7 @@ import MainViewModel
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
@@ -13,6 +14,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.webkit.WebView
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.Keep
@@ -52,18 +54,21 @@ class AlbumInfoFragment: Fragment() {
         view.findViewById<TextView>(R.id.year_text).text = year
         val imageBytes = Base64.decode(viewModel.album_to_view.base64_album_art, Base64.DEFAULT)
         val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+        val spotify_play: MediaPlayer = MediaPlayer.create(context, R.raw.play_spotify)
         view.findViewById<ImageView>(R.id.albumView).setImageBitmap(decodedImage)
 
         webView = view.findViewById<WebView>(R.id.webView)
-        webView.scrollX = 365
-        webView.scrollY = 300
+        webView.scrollX = 345
+        webView.scrollY = 280
         webView.setInitialScale(200)
         webView.loadUrl("https://www.getcdprices.com/search/?upc=" + ("$album_title $artist_name").replace(' ', '+'))
 
-        view.findViewById<Button>(R.id.spotify_link).setOnClickListener {
+        view.findViewById<ImageButton>(R.id.spotify_link).setOnClickListener {
             val url = viewModel.album_to_view.link
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             startActivity(intent)
+            if (viewModel.sound_effects_on)
+                spotify_play.start()
         }
     }
 

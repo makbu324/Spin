@@ -99,7 +99,7 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
                 R.anim.exit_to_bottom
             )
             fragmentTransaction.replace(R.id.nav_host, WishlistFragment(), WishlistFragment.TAG)
-            fragmentTransaction.addToBackStack(ResultsFragment.TAG)
+            fragmentTransaction.addToBackStack(WishlistFragment.TAG)
             fragmentTransaction.commit()
             if (viewModel.sound_effects_on)
                 libraryPullup.start()

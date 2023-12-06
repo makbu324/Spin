@@ -9,6 +9,35 @@
     tools:context="HomeFragment"
     android:background="@drawable/shelf_background">
 
+    <TextView
+        android:id="@+id/album_art_text"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginTop="30dp"
+        android:text="----Album Art----"
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:textColor="@color/white"
+        android:textStyle="italic"
+        app:layout_constraintTop_toTopOf="@+id/please_scroll_text"
+        app:layout_constraintBottom_toTopOf="@+id/albumView"
+        app:layout_constraintStart_toStartOf="@id/albumView"
+        app:layout_constraintEnd_toEndOf="@id/albumView" />
+
+    <ImageView
+        android:id="@+id/please_scroll_text"
+        android:layout_width="180dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/scroll_and_click"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/album_art_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/webView"/>
+
     <ImageView
         android:id="@+id/albumView"
         android:layout_width="180dp"
@@ -17,7 +46,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="30dp"
         app:layout_constraintDimensionRatio="H,1:1"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/album_art_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/webView"
         app:layout_constraintBottom_toTopOf="@+id/album_section"/>
@@ -27,13 +56,13 @@
         android:scrollbars="vertical"
         android:layout_width="180dp"
         android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@+id/albumView"
         app:layout_constraintBottom_toBottomOf="@+id/albumView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/albumView"
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="0dp" />
 
     <LinearLayout
         android:id="@+id/album_section"
@@ -113,12 +142,13 @@
         android:text=" 0000 " />
     </LinearLayout>
 
-    <Button
+    <ImageButton
         android:id="@+id/spotify_link"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/green"
-        android:text="Spotify"
+        android:layout_width="60dp"
+        android:scaleType="fitXY"
+        android:layout_height="60dp"
+        android:background="@drawable/spotify_icon"
+        android:src="@drawable/spotify_icon"
         android:textStyle="bold"
         android:layout_marginTop="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
