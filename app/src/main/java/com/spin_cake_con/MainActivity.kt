@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel.looking_at_wishlist_from_result = false
-        viewModel.setAllowHomeButton(false)
 
         appbarLayout = findViewById(R.id.appbar_layout)
         homeButton = findViewById<Button>(R.id.home_button)

@@ -43,6 +43,7 @@ class ResultsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.setAllowHomeButton(true)
+        viewModel.setAllowBackButton(false)
         viewModel.setAppbarTitle("")
         viewModel.setAllowGoBack(true)
         viewModel.setShowSettingsIcon(false)
