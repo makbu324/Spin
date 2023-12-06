@@ -25,8 +25,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewModel.looking_at_wishlist_from_result = false
-
         appbarLayout = findViewById(R.id.appbar_layout)
         homeButton = findViewById<Button>(R.id.home_button)
         backButton = findViewById<Button>(R.id.back_button)
