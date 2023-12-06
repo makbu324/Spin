@@ -57,6 +57,8 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
     val searchResults = MutableLiveData<List<String>>(emptyList())
     private val error = MutableLiveData(false)
     var url_thing = ""
+    var spotifyImageEncoded = ""
+    var spotifyImageURL = ""
     var SPOTIFY_ACCESS_TOKEN = ""
     var go_to_camera = false
     private val allowHomeButton = MutableLiveData(false)
@@ -295,7 +297,13 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
                 ).toString()
             )
             resultDataList.add(response.body()!!.albums!!.items[i].external_urls.spotify)
+            spotifyImageURL= response.body()!!.albums!!.items[i].images[0].url
+            encodeSpotifyAlbumImage(spotifyImageURL)
             Log.d("album result!!", resultDataList.toString())
+
+
+            // spotifyImageURL to base64
+
         } else {
             Log.i("Response!", "null response body")
         }
@@ -303,6 +311,8 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
         // Return resultDataList outside of the callback
         return@withContext resultDataList
     }
+
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun setUploadedImageUrl(url: String) {
@@ -313,6 +323,18 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
         val `is` = con.inputStream
         val bmp = BitmapFactory.decodeStream(`is`)
         encodeImageAndGuess(bmp)
+
+    }
+
+    fun encodeSpotifyAlbumImage(url: String) {
+        val ulrn = URL(url)
+        val con = ulrn.openConnection() as HttpURLConnection
+        val `is` = con.inputStream
+        val bmp = BitmapFactory.decodeStream(`is`)
+        val baos = ByteArrayOutputStream()
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val b = baos.toByteArray()
+        spotifyImageEncoded = Base64.encodeToString(b, Base64.DEFAULT) //try
     }
 
     fun notifyError() {

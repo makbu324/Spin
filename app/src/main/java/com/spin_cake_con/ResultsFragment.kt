@@ -72,7 +72,7 @@ class ResultsFragment : Fragment() {
                 artist = viewModel.searchResults.value!![1],
                 title = viewModel.searchResults.value!![0],
                 year = viewModel.searchResults.value!![2],
-                base64_album_art = viewModel.url_thing,
+                base64_album_art = viewModel.spotifyImageEncoded,
                 id = UUID.randomUUID(),
                 link = viewModel.searchResults.value!![3]
             ))
@@ -106,7 +106,7 @@ class ResultsFragment : Fragment() {
 
 
         //Mak: display album image (placeholder: image taken by user) -> Chris, pls fix
-        val imageBytes = Base64.decode(viewModel.url_thing, Base64.DEFAULT)
+        val imageBytes = Base64.decode(viewModel.spotifyImageEncoded, Base64.DEFAULT)
         val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
         view.findViewById<ImageView>(R.id.album_image).setImageBitmap(decodedImage)
 
