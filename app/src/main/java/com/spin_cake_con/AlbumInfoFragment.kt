@@ -44,6 +44,7 @@ class AlbumInfoFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.setAllowBackButton(true)
+        viewModel.setAllowHomeButton(false)
 
         val album_title = viewModel.album_to_view.title
         val artist_name = viewModel.album_to_view.artist

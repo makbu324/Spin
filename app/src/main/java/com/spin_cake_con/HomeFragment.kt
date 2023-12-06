@@ -69,6 +69,7 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.setAppbarTitle("Spin")
+        viewModel.setAllowBackButton(false)
         viewModel.setAllowGoBack(false)
         viewModel.setShowSettingsIcon(true)
         viewModel.setShowLinkIcon(false)

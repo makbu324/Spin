@@ -54,7 +54,10 @@ class WishlistFragment: Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        viewModel.setAllowHomeButton(false)
+        if (!viewModel.looking_at_wishlist_from_result) {
+            viewModel.setAllowHomeButton(false)
+            viewModel.looking_at_wishlist_from_result = false
+        }
     }
 
 }

@@ -49,6 +49,8 @@ class EditFragment : Fragment() {
         viewModel.setAllowGoBack(true)
         viewModel.setShowSettingsIcon(true)
         viewModel.setShowLinkIcon(false)
+        viewModel.setAllowBackButton(true)
+        viewModel.setAllowHomeButton(false)
         viewModel.fragmentTag = HomeFragment.TAG
 
         val searchClick: MediaPlayer = MediaPlayer.create(context, R.raw.wood_click)
@@ -110,5 +112,10 @@ class EditFragment : Fragment() {
                     onCropFinish(UCrop.RESULT_ERROR)
                 }
             })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.setAllowBackButton(false)
     }
 }
