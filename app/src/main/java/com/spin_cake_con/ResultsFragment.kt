@@ -49,11 +49,8 @@ class ResultsFragment : Fragment() {
         viewModel.setShowLinkIcon(true)
         viewModel.fragmentTag = HomeFragment.TAG
         var linkButton: Button = view.findViewById(R.id.openLink)
-        val play_this: MediaPlayer = MediaPlayer.create(context, R.raw.scan_success)
         val add_to_wishlist: MediaPlayer = MediaPlayer.create(context, R.raw.add_to_wish_list)
         val wishlist_rolling: MediaPlayer = MediaPlayer.create(context, R.raw.wishlist_rollin)
-        if (viewModel.sound_effects_on)
-            play_this.start()
 
         // open album in spotify button
         linkButton.setOnClickListener {
@@ -64,6 +61,7 @@ class ResultsFragment : Fragment() {
 
         //Mak: add album to wishlist
         view.findViewById<Button>(R.id.add_to_wishlist).setOnClickListener {
+            viewModel.already_added_album = true
             viewModel.THE_WISHLIST.add(0, Album(
                 artist = viewModel.searchResults.value!![1],
                 title = viewModel.searchResults.value!![0],
@@ -98,6 +96,7 @@ class ResultsFragment : Fragment() {
                 if (viewModel.sound_effects_on)
                     wishlist_rolling.start()
                 GoToWishlist.isClickable = false
+                viewModel.getAllowHomeButton()
             }
 
             //only clicked once
@@ -132,8 +131,9 @@ class ResultsFragment : Fragment() {
         val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
         view.findViewById<ImageView>(R.id.album_image).setImageBitmap(decodedImage)
 
-
-
+        //cant click on album again
+        if (viewModel.already_added_album == true)
+            view.findViewById<Button>(R.id.add_to_wishlist).isClickable = false
     }
 
     override fun onDestroyView() {

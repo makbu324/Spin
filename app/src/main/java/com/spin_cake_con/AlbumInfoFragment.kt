@@ -55,6 +55,7 @@ class AlbumInfoFragment: Fragment() {
         val imageBytes = Base64.decode(viewModel.album_to_view.base64_album_art, Base64.DEFAULT)
         val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
         val spotify_play: MediaPlayer = MediaPlayer.create(context, R.raw.play_spotify)
+        val trash_album: MediaPlayer = MediaPlayer.create(context, R.raw.trash_album)
         view.findViewById<ImageView>(R.id.albumView).setImageBitmap(decodedImage)
 
         webView = view.findViewById<WebView>(R.id.webView)
@@ -69,6 +70,12 @@ class AlbumInfoFragment: Fragment() {
             startActivity(intent)
             if (viewModel.sound_effects_on)
                 spotify_play.start()
+        }
+        view.findViewById<ImageButton>(R.id.trash_can).setOnClickListener {
+            viewModel.THE_WISHLIST.remove(viewModel.album_to_view)
+            parentFragmentManager.popBackStack()
+            if (viewModel.sound_effects_on)
+                trash_album.start()
         }
     }
 

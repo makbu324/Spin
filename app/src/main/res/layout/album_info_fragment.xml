@@ -152,8 +152,22 @@
         android:textStyle="bold"
         android:layout_marginTop="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/trash_can"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/year_section" />
+
+    <ImageButton
+        android:id="@+id/trash_can"
+        android:layout_width="60dp"
+        android:scaleType="fitXY"
+        android:layout_height="60dp"
+        android:background="@drawable/trash_icon"
+        android:src="@drawable/trash_icon"
+        android:textStyle="bold"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/spotify_link"
         app:layout_constraintTop_toBottomOf="@+id/year_section" />
 
 

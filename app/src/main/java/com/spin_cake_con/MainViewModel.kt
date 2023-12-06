@@ -63,6 +63,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
     var go_to_camera = false
     private val allowHomeButton = MutableLiveData(false)
     private val allowBackButton = MutableLiveData(false)
+    var already_added_album = false
 
     //***********Store these for database********************
     var sound_effects_on = true

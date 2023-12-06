@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         val clickHome: MediaPlayer = MediaPlayer.create(this, R.raw.search_wood)
         val shelfBack: MediaPlayer = MediaPlayer.create(this, R.raw.shelf_back)
+        val play_this: MediaPlayer = MediaPlayer.create(this, R.raw.scan_success)
 
         val requestPermissionLauncher =
             registerForActivityResult(
@@ -89,6 +90,7 @@ class MainActivity : AppCompatActivity() {
                 clickHome.start()
             supportFragmentManager.popBackStack()
             supportFragmentManager.popBackStack()
+            supportFragmentManager.popBackStack()
         }
 
         backButton.setOnClickListener{
@@ -125,6 +127,9 @@ class MainActivity : AppCompatActivity() {
                     )
                     replace(R.id.nav_host, ResultsFragment(), ResultsFragment.TAG)
                     addToBackStack(ResultsFragment.TAG)
+                    if (viewModel.sound_effects_on)
+                        play_this.start()
+                    viewModel.already_added_album = false
                 }
             }
         }
