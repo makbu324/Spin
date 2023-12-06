@@ -43,7 +43,6 @@ class ResultsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.setAllowHomeButton(true)
-        viewModel.looking_at_wishlist_from_result = false
         viewModel.setAllowBackButton(false)
         viewModel.setAppbarTitle("")
         viewModel.setAllowGoBack(true)
