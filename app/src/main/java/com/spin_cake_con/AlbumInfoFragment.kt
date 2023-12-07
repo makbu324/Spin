@@ -57,6 +57,7 @@ class AlbumInfoFragment: Fragment() {
         val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
         val spotify_play: MediaPlayer = MediaPlayer.create(context, R.raw.play_spotify)
         val trash_album: MediaPlayer = MediaPlayer.create(context, R.raw.trash_album)
+        val open_frag: MediaPlayer = MediaPlayer.create(context, R.raw.album_frag_open)
         view.findViewById<ImageView>(R.id.albumView).setImageBitmap(decodedImage)
 
         webView = view.findViewById<WebView>(R.id.webView)
@@ -78,6 +79,9 @@ class AlbumInfoFragment: Fragment() {
             if (viewModel.sound_effects_on)
                 trash_album.start()
         }
+
+        if (viewModel.sound_effects_on)
+            open_frag.start()
     }
 
     override fun onDestroyView() {
