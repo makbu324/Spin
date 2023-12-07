@@ -19,6 +19,7 @@ import androidx.annotation.Keep
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.aminography.choosephotohelper.BuildConfig
 import com.aminography.choosephotohelper.ChoosePhotoHelper
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -32,6 +33,13 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.spin_cake_con.PlaceResponse
+import com.spin_cake_con.PlacesApiService
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.Call
+import retrofit2.converter.gson.GsonConverterFactory
 
 @Keep
 class HomeFragment: Fragment(), OnMapReadyCallback {
@@ -193,12 +201,41 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
         } else {
             userLocation.position = curLatlng
         }
+        getNearbyLocation()
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curLatlng, 12f))
     }
 
     private fun isLocationEnabled():Boolean{
         val locationManager:LocationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)||locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    }
+
+    private fun getNearbyLocation(){
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://maps.googleapis.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val service = retrofit.create(PlacesApiService::class.java)
+        val url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
+                "location=$latit,$longit&radius=5000&keyword=record&key=MAPS_API_KEY"
+        val call = service.getNearbyPlaces(url)
+        call.enqueue(object : Callback<PlaceResponse> {
+            override fun onResponse(call: Call<PlaceResponse>, response: Response<PlaceResponse>) {
+                if (response.isSuccessful){
+                    val places = response.body()?.results
+                    places?.let{
+                        for (place in it) {
+                            val latLng = LatLng(place.geometry.location.lat, place.geometry.location.lng)
+                            googleMap.addMarker(MarkerOptions().position(latLng).title(place.name).snippet(place.vicinity))
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<PlaceResponse>, t: Throwable) {
+                Log.e("APIError", "Error getting nearby record stores")
+            }
+        })
     }
     private fun requestPerms() {
         val requestCode = 101
