@@ -1,7 +1,6 @@
 package com.spin_cake_con
 
 import MainViewModel
-import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.media.MediaPlayer
@@ -11,17 +10,14 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.webkit.WebView
-import android.widget.Button
+import android.webkit.WebViewClient
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.Keep
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.viewpager.widget.ViewPager
 
 
 @Keep
@@ -61,9 +57,17 @@ class AlbumInfoFragment: Fragment() {
         view.findViewById<ImageView>(R.id.albumView).setImageBitmap(decodedImage)
 
         webView = view.findViewById<WebView>(R.id.webView)
-        webView.scrollX = 345
-        webView.scrollY = 280
+        webView.scrollY = 340
         webView.setInitialScale(200)
+        webView.setWebViewClient(object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                // do your handling codes here, which url is the requested url
+                // probably you need to open that url rather than redirect:
+                Thread.sleep(2000)
+                view.loadUrl(url)
+                return false // then it is not handled by default action
+            }
+        })
         webView.loadUrl("https://www.google.com/search?tbm=shop&q=" + ("$album_title $artist_name $year vinyl+album").replace(' ', '+'))
 
         view.findViewById<ImageButton>(R.id.spotify_link).setOnClickListener {
