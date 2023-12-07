@@ -141,7 +141,7 @@
     <WebView
         android:id="@+id/webView"
         android:layout_width="0dp"
-        android:layout_height="225dp"
+        android:layout_height="290dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

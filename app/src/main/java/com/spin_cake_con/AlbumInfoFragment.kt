@@ -59,6 +59,7 @@ class AlbumInfoFragment: Fragment() {
         webView = view.findViewById<WebView>(R.id.webView)
         webView.scrollY = 340
         webView.setInitialScale(200)
+        webView.fitsSystemWindows = true
         webView.setWebViewClient(object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 // do your handling codes here, which url is the requested url
