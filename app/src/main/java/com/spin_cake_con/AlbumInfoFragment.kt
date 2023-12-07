@@ -64,7 +64,7 @@ class AlbumInfoFragment: Fragment() {
         webView.scrollX = 345
         webView.scrollY = 280
         webView.setInitialScale(200)
-        webView.loadUrl("https://www.getcdprices.com/search/?upc=" + ("$album_title $artist_name").replace(' ', '+'))
+        webView.loadUrl("https://www.google.com/search?tbm=shop&q=" + ("$album_title $artist_name $year vinyl+album").replace(' ', '+'))
 
         view.findViewById<ImageButton>(R.id.spotify_link).setOnClickListener {
             val url = viewModel.album_to_view.link
