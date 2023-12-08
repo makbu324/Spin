@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:orientation="horizontal"
+    android:background="@drawable/write_notepad">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/price_text"
+            android:layout_width="20dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="75dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="0dp"
+            android:text="$"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/location_text"
+            app:layout_constraintEnd_toStartOf="@+id/actual_price"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/actual_price"
+            android:layout_width="100dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="75dp"
+            android:layout_marginBottom="0dp"
+            android:text=""
+            android:textAlignment="textStart"
+            android:textSize="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/price_text"
+            app:layout_constraintEnd_toStartOf="@+id/ok_button"
+            app:layout_constraintStart_toEndOf="@id/price_text"
+            app:layout_constraintTop_toTopOf="@+id/price_text" />
+
+        <ImageButton
+            android:id="@+id/ok_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:gravity="center"
+            android:background="@drawable/ok_button"
+            app:layout_constraintBottom_toBottomOf="@id/actual_price"
+            app:layout_constraintDimensionRatio="H,1:1"
+            app:layout_constraintStart_toEndOf="@id/actual_location"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <ImageButton
+            android:id="@+id/trash_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/trash_icon"
+            app:layout_constraintDimensionRatio="H,1:1"
+            app:layout_constraintTop_toBottomOf="@id/actual_location"
+            app:layout_constraintStart_toStartOf="@id/ok_button"
+            app:layout_constraintEnd_toEndOf="@id/ok_button"/>
+
+        <TextView
+            android:id="@+id/location_text"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="85dp"
+            android:text="Location:"
+            android:textAlignment="textStart"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/memo"
+            app:layout_constraintEnd_toStartOf="@+id/actual_location"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/price_text" />
+
+        <EditText
+            android:id="@+id/actual_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="75dp"
+            android:layout_marginTop="0dp"
+            android:text=""
+            android:textAlignment="textStart"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/location_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/location_text"
+            app:layout_constraintTop_toBottomOf="@id/price_text" />
+
+        <EditText
+            android:id="@+id/memo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="50dp"
+            android:text=""
+            android:textAlignment="textStart"
+            android:textSize="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/actual_location"
+            app:layout_constraintStart_toStartOf="@id/location_text"
+            app:layout_constraintTop_toBottomOf="@id/location_text" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

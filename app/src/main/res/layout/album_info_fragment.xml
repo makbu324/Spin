@@ -14,11 +14,24 @@
         android:layout_width="180dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
         app:layout_constraintBottom_toTopOf="@+id/album_section"
         app:layout_constraintDimensionRatio="H,1:1"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/bar_chart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/bar_chart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintBottom_toBottomOf="@id/albumView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/albumView"
+        app:layout_constraintTop_toTopOf="@+id/albumView"
+        app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
         android:id="@+id/album_section"
@@ -107,6 +120,7 @@
         android:src="@drawable/spotify_icon"
         android:textStyle="bold"
         android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
         app:layout_constraintBottom_toTopOf="@id/webView"
         app:layout_constraintEnd_toStartOf="@+id/trash_can"
         app:layout_constraintStart_toStartOf="parent"
@@ -130,13 +144,43 @@
         android:id="@+id/please_scroll_text"
         android:layout_width="180dp"
         android:layout_height="80dp"
-        android:layout_marginEnd="0dp"
         android:layout_marginTop="0dp"
+        android:layout_marginStart="0dp"
         android:src="@drawable/scroll_and_click"
         app:layout_constraintTop_toTopOf="@id/spotify_link"
         app:layout_constraintBottom_toTopOf="@id/webView"
         app:layout_constraintStart_toEndOf="@+id/trash_can"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/prev_page" />
+
+    <ImageButton
+        android:id="@+id/edit_button"
+        android:layout_width="60dp"
+        android:scaleType="fitXY"
+        android:layout_height="60dp"
+        android:background="@drawable/edit_chart"
+        android:src="@drawable/edit_chart"
+        android:textStyle="bold"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/prev_page"
+        app:layout_constraintEnd_toEndOf="@+id/prev_page"
+        app:layout_constraintStart_toStartOf="@+id/prev_page"
+        app:layout_constraintTop_toBottomOf="@+id/album_section" />
+
+    <ImageButton
+        android:id="@+id/prev_page"
+        android:layout_width="60dp"
+        android:scaleType="fitXY"
+        android:layout_height="60dp"
+        android:background="@drawable/prev_page"
+        android:src="@drawable/prev_page"
+        android:textStyle="bold"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/spotify_link"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/please_scroll_text"
+        app:layout_constraintTop_toTopOf="@+id/spotify_link" />
 
     <WebView
         android:id="@+id/webView"

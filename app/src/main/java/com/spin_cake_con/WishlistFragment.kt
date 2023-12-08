@@ -49,17 +49,13 @@ class WishlistFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.setAllowHomeButton(true)
-        if (viewModel.looking_at_wishlist_from_result)
-            viewModel.setAllowBackButton(true)
+        viewModel.setAllowBackButton(false)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        if (!viewModel.looking_at_wishlist_from_result) {
-            viewModel.setAllowHomeButton(false)
-            viewModel.looking_at_wishlist_from_result = false
-        }
+        viewModel.setAllowHomeButton(false)
     }
 
 }

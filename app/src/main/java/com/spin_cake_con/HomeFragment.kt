@@ -75,7 +75,6 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.looking_at_wishlist_from_result = false
         viewModel.setAppbarTitle("Spin")
         viewModel.setAllowBackButton(false)
         viewModel.setAllowGoBack(false)

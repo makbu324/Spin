@@ -3,6 +3,7 @@ package com.spin_cake_con
 import MainViewModel
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
@@ -18,6 +19,12 @@ import android.widget.TextView
 import androidx.annotation.Keep
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.utils.ColorTemplate
 
 
 @Keep
@@ -60,6 +67,7 @@ class AlbumInfoFragment: Fragment() {
         webView.scrollY = 340
         webView.setInitialScale(200)
         webView.fitsSystemWindows = true
+        webView.settings.javaScriptEnabled = true
         webView.setWebViewClient(object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 // do your handling codes here, which url is the requested url
@@ -84,6 +92,48 @@ class AlbumInfoFragment: Fragment() {
             if (viewModel.sound_effects_on)
                 trash_album.start()
         }
+        view.findViewById<ImageButton>(R.id.prev_page).setOnClickListener {
+            webView.goBack()
+        }
+
+        view.findViewById<ImageButton>(R.id.edit_button).setOnClickListener{
+            val fragmentTransaction = parentFragmentManager.beginTransaction()
+            fragmentTransaction.setCustomAnimations(
+                R.anim.enter_from_right,
+                R.anim.exit_to_left,
+                R.anim.enter_from_left,
+                R.anim.exit_to_right
+            )
+            fragmentTransaction.replace(R.id.nav_host, NotelistFragment(), NotelistFragment.TAG)
+            fragmentTransaction.addToBackStack(NotelistFragment.TAG)
+            fragmentTransaction.commit()
+        }
+
+        //Bar chart
+        var barArrayList: ArrayList<BarEntry> = arrayListOf()
+        var labels = mutableListOf<String>()
+        var x_setter = -1f
+        for (local_price in viewModel.album_to_view.list_of_prices) {
+            x_setter += 1f
+            labels.add(local_price.first)
+            barArrayList.add(BarEntry(x_setter, local_price.second.toFloat()))
+        }
+        val barChart = view.findViewById<BarChart>(R.id.bar_chart)
+        val barDataSet = BarDataSet(barArrayList, "$$$ Prices")
+        val barData = BarData(barDataSet)
+        barChart.setData(barData)
+        barChart.description.text = "$  "
+        barChart.description.textColor = Color.GRAY
+        barChart.description.textSize = 25.5f
+        barChart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+        barChart.xAxis.labelCount = labels.size
+        barChart.getAxisLeft().setDrawLabels(false)
+        barChart.getAxisRight().setDrawLabels(false)
+        barChart.xAxis.textColor = Color.WHITE
+        barDataSet.setValueTextColor(Color.GRAY)
+        barDataSet.setColors(ColorTemplate.createColors(ColorTemplate.COLORFUL_COLORS))
+        barDataSet.valueTextSize = 16f
+        //***********
 
         if (viewModel.sound_effects_on)
             open_frag.start()
@@ -91,7 +141,6 @@ class AlbumInfoFragment: Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.setAllowBackButton(false)
     }
 
 }

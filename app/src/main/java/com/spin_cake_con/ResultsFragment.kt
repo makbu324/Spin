@@ -69,7 +69,8 @@ class ResultsFragment : Fragment() {
                 year = viewModel.searchResults.value!![2],
                 base64_album_art = viewModel.spotifyImageEncoded,
                 id = UUID.randomUUID(),
-                link = viewModel.searchResults.value!![3]
+                link = viewModel.searchResults.value!![3],
+                list_of_prices = mutableListOf<Triple<String, Double, String>>()
             ))
 
             val snackbar = Snackbar.make(
@@ -104,7 +105,6 @@ class ResultsFragment : Fragment() {
             view.findViewById<Button>(R.id.add_to_wishlist).isClickable = false
             if (viewModel.sound_effects_on)
                 add_to_wishlist.start()
-            viewModel.looking_at_wishlist_from_result = true
         }
 
         view.findViewById<Button>(R.id.try_again).setOnClickListener {
@@ -140,7 +140,5 @@ class ResultsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        if (!viewModel.looking_at_wishlist_from_result)
-            viewModel.setAllowHomeButton(false)
     }
 }

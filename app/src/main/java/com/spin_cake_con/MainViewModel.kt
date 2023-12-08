@@ -64,7 +64,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
     private val allowHomeButton = MutableLiveData(false)
     private val allowBackButton = MutableLiveData(false)
     var already_added_album = false
-    var looking_at_wishlist_from_result = false
+    var adding_new_note = false
 
     //***********Store these for database********************
     var sound_effects_on = true
@@ -75,17 +75,20 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
         year = "1967",
         base64_album_art = sgt_pepper_art,
         id = UUID.randomUUID(),
-        link = "https://open.spotify.com/album/6QaVfG1pHYl1z15ZxkvVDW"
+        link = "https://open.spotify.com/album/6QaVfG1pHYl1z15ZxkvVDW",
+        list_of_prices = mutableListOf(Triple("GoldNugg", 60.0, "I found this at GoldenNuggets."), Triple("SpinTwist", 100.0, "I found this at SpinAndTwist."))
     ),Album(
         artist = "",
         title = "",
         year = "",
         base64_album_art = "",
         id = UUID.randomUUID(),
-        link = ""
+        link = "",
+        list_of_prices = mutableListOf<Triple<String, Double, String>>()
     ))
     //For viewing album in Album Info fragment
     var album_to_view = THE_WISHLIST[1]
+    var note_to_view = Triple("", 0.0, "")
 
     //*******************************************************
 
