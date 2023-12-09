@@ -234,8 +234,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
         var censoredWords = listOf( //Mak: I added more things to avoid
             "Album", "Cover", "Vinyl", "USA", "Import",
             "LP", "CD", "Soundtrack", "Phonograph record", "German Import", "Studio album", "Rock", "Indie Rock", "Hip hop music"
-            ,"Record Producer", "Tiktok", "Youtube", "Rap", "NPR", "Instagram", "Poster", "poster"
-        )
+            ,"Record Producer", "Tiktok", "Youtube", "Rap", "NPR", "Instagram", "Poster", "poster", "Art", "Modern art", "Album cover")
 
         // get access key - post request
         val retrofitForKey: Retrofit = Retrofit.Builder().baseUrl("https://accounts.spotify.com/")
@@ -264,7 +263,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
 
         var counter = 0
         for (guess in albumGuesses) {
-            if (guess !in censoredWords && counter < 2) {
+            if (guess !in censoredWords && counter < 4) {
                 queryString += ("$guess ")
                 counter++
             }
@@ -279,8 +278,8 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
             .addConverterFactory(GsonConverterFactory.create()).build()
         val albumService: SpotifyApiService = retrofitForAlbum.create(SpotifyApiService::class.java)
 
-        if (queryString.length > 40) {
-            queryString = queryString.subSequence(0, 40).toString()
+        if (queryString.length > 100) {
+            queryString = queryString.subSequence(0, 100).toString()
         }
         Log.d("spotify query", queryString)
         Log.d("spotify token", accessInfo.toString())
