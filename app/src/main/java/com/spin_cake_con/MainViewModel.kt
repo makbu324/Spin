@@ -57,6 +57,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
     val searchResults = MutableLiveData<List<String>>(emptyList())
     private val error = MutableLiveData(false)
     var url_thing = ""
+    lateinit var userImageBitmap: Bitmap
     var spotifyImageEncoded = ""
     var spotifyImageURL = ""
     var SPOTIFY_ACCESS_TOKEN = ""
@@ -134,19 +135,10 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun uploadImage() {
-        imageUploader.upload(
-            File(croppedImgPath),
-            object : ImageUploader.UploadCallback {
-                @RequiresApi(Build.VERSION_CODES.O)
-                override fun onResult(url: String) {
-                    if (url == "") {
-                        notifyError()
-                    } else {
-                        setUploadedImageUrl(url)
-                    }
-                }
-            })
+        userImageBitmap = BitmapFactory.decodeFile(croppedImgPath)
+        encodeImageAndGuess(userImageBitmap)
     }
 
     fun getSearchResults(): LiveData<List<String>> = searchResults
@@ -317,8 +309,8 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
     }
 
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
+// no longer needed - image bitmap sent directly to api chain instead of uploading
+    /*@RequiresApi(Build.VERSION_CODES.O)
     fun setUploadedImageUrl(url: String) {
         //for testing
         //var url = "https://f4.bcbits.com/img/a0305803156_65"
@@ -328,7 +320,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
         val bmp = BitmapFactory.decodeStream(`is`)
         encodeImageAndGuess(bmp)
 
-    }
+    }*/
 
     fun encodeSpotifyAlbumImage(url: String) {
         val ulrn = URL(url)
