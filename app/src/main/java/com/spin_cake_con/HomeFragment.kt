@@ -30,6 +30,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -178,6 +179,8 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
             ) {
                 startLocationUpdates()
             }
+
+            googleMap.isMyLocationEnabled = true
             fusedLocationProviderClient.requestLocationUpdates(createLocationRequest(), locationCallback, null)
         } else {
             requestPerms()
@@ -195,8 +198,9 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
         latit = latitude
         longit = longitude
         val curLatlng = LatLng(latit, longit)
+        val customMarker = BitmapDescriptorFactory.fromResource(R.drawable.custom_marker)
         if (!::userLocation.isInitialized){
-            userLocation = googleMap.addMarker(MarkerOptions().position(curLatlng).title("Current Location"))!!
+            userLocation = googleMap.addMarker(MarkerOptions().position(curLatlng).title("Current Location").icon(customMarker))!!
         } else {
             userLocation.position = curLatlng
         }
