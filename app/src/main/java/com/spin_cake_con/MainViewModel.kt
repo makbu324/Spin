@@ -335,8 +335,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
     fun notifyError() {
         error.postValue(true)
     }
-
-
+    
     fun setImageFilePath(path: String) {
         imgPath.value = path
         croppedImgPath = path

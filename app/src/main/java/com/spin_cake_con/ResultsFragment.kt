@@ -114,14 +114,7 @@ class ResultsFragment : Fragment() {
             requestPermissions(arrayOf(android.Manifest.permission.CAMERA), 101)
             view.findViewById<Button>(R.id.try_again).isClickable = false
         }
-
-
-
-
         Thread.sleep(2000)
-
-
-
         // display album info
         view.findViewById<MaterialTextView>(R.id.albumNameTextView).text = viewModel.searchResults.value!![0]
         view.findViewById<MaterialTextView>(R.id.artistTextView).text = viewModel.searchResults.value!![1]

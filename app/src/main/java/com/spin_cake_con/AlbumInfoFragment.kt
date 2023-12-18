@@ -32,7 +32,6 @@ class AlbumInfoFragment: Fragment() {
     companion object {
         const val TAG = "AlbumInfoFragment"
     }
-
     private val viewModel by activityViewModels<MainViewModel>()
     private lateinit var webView: WebView
 
