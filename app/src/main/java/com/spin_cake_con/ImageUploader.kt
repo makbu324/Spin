@@ -2,9 +2,7 @@ package com.spin_cake_con
 
 import java.io.File
 
-/**
- * Uploads a file (image), and gives a URL for the image.
- */
+//An object for uploading file to Transfer.sh
 interface ImageUploader {
     fun upload(file: File, callback: UploadCallback): Boolean
 

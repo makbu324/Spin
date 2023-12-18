@@ -57,7 +57,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.8.1")
     implementation("androidx.preference:preference:1.2.0")
     implementation("org.jsoup:jsoup:1.13.1")
-    implementation("com.github.OHermesJunior:ChoosePhotoHelper:1.3.1")
+    implementation("com.aminography:choosephotohelper:1.3.1")
     implementation("com.github.yalantis:ucrop:2.2.6")
     implementation("com.github.delight-im:Android-AdvancedWebView:v3.2.1")
     implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
