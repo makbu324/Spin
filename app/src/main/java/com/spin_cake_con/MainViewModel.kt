@@ -255,8 +255,10 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
         // Chris - remove censored words that will throw off results
         var censoredWords = listOf( //Mak: I added more things to avoid
             "Album", "Cover", "Vinyl", "USA", "Import",
-            "LP", "CD", "Soundtrack", "Phonograph record", "German Import", "Studio album", "Rock", "Indie Rock", "Hip hop music"
-            ,"Record Producer", "Tiktok", "Youtube", "Rap", "NPR", "Instagram", "Poster", "poster", "Art", "Modern art", "Album cover")
+            "LP", "CD", "Soundtrack", "Phonograph record",
+            "German Import", "Studio album", "Rock", "Indie Rock", "Hip hop music"
+            ,"Record Producer", "Tiktok", "Youtube", "Rap", "NPR", "Instagram",
+            "Poster", "poster", "Art", "Modern art", "Album cover")
         var counter = 0
         for (guess in albumGuesses) {
             if (guess !in censoredWords && counter < 4) {
