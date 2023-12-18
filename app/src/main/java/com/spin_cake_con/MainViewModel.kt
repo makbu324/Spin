@@ -25,8 +25,6 @@ import com.example.spotifyapitest.spotifyapi.Token
 import com.example.spotifyapitest.spotifyapi.UserResponse
 import com.google.gson.Gson
 import com.spin_cake_con.Album
-import com.spin_cake_con.ImageUploader
-import com.spin_cake_con.TransfershUploader
 import com.spin_cake_con.sgt_pepper_art
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
