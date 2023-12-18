@@ -213,6 +213,8 @@ class HomeFragment: Fragment(), OnMapReadyCallback {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)||locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }
 
+
+    // Jonah - scan for nearby record stores using Google Places and add to map
     private fun getNearbyLocation(){
         val retrofit = Retrofit.Builder()
             .baseUrl("https://maps.googleapis.com/")

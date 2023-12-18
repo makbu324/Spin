@@ -25,6 +25,7 @@ import java.io.File
 
 /**
  * Modified from UCropFragment.
+ *  Mak - image cropping fragment shown before sent to Google Cloud and Spotify
  */
 @Keep
 class EditFragment : Fragment() {
@@ -73,6 +74,7 @@ class EditFragment : Fragment() {
         return rootView
     }
 
+    // Mak - sends the base64 encoded image to the viewmodel instance for image recognition
     private fun onCropFinish(result: Int) {
         if (result == Activity.RESULT_OK) {
             viewModel.croppedImgPath = outputUri.path!!

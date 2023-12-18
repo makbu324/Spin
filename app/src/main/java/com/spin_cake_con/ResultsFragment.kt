@@ -128,12 +128,12 @@ class ResultsFragment : Fragment() {
         view.findViewById<MaterialTextView>(R.id.yearTextView).text = viewModel.searchResults.value!![2]
 
 
-        //Mak: display album image (placeholder: image taken by user) -> Chris, pls fix
+        //Mak/Chris: display album image
         val imageBytes = Base64.decode(viewModel.spotifyImageEncoded, Base64.DEFAULT)
         val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
         view.findViewById<ImageView>(R.id.album_image).setImageBitmap(decodedImage)
 
-        //cant click on album again
+        // cant add album again if it's already added to wishlist
         if (viewModel.already_added_album == true)
             view.findViewById<Button>(R.id.add_to_wishlist).isClickable = false
     }

@@ -1,6 +1,7 @@
 package com.spin_cake_con
 
-
+// Mak - image uploader for temp online storage
+// Currently unused after change in architecture
 class TransfershUploader : FormImageUploader() {
     override val formName: String
         get() = "filedata"

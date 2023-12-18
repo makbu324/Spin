@@ -2,6 +2,7 @@ package com.spin_cake_con
 
 import java.util.UUID
 
+// Mak - Album data class for wishlist
 data class Album(
     val artist: String,
     val title: String,

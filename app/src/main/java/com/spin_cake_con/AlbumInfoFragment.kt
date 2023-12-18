@@ -26,7 +26,7 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 
-
+// Mak - wishlist info fragment. This appears when you click on an album
 @Keep
 class AlbumInfoFragment: Fragment() {
     companion object {
@@ -63,6 +63,8 @@ class AlbumInfoFragment: Fragment() {
         val open_frag: MediaPlayer = MediaPlayer.create(context, R.raw.album_frag_open)
         view.findViewById<ImageView>(R.id.albumView).setImageBitmap(decodedImage)
 
+
+        // Google shopping link embedded
         webView = view.findViewById<WebView>(R.id.webView)
         webView.scrollY = 340
         webView.setInitialScale(200)
@@ -79,6 +81,7 @@ class AlbumInfoFragment: Fragment() {
         })
         webView.loadUrl("https://www.google.com/search?tbm=shop&q=" + ("$album_title $artist_name $year vinyl+album").replace(' ', '+'))
 
+        // Click on album to view info
         view.findViewById<ImageButton>(R.id.spotify_link).setOnClickListener {
             val url = viewModel.album_to_view.link
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
@@ -86,12 +89,16 @@ class AlbumInfoFragment: Fragment() {
             if (viewModel.sound_effects_on)
                 spotify_play.start()
         }
+
+        // Remove wishlist item
         view.findViewById<ImageButton>(R.id.trash_can).setOnClickListener {
             viewModel.THE_WISHLIST.remove(viewModel.album_to_view)
             parentFragmentManager.popBackStack()
             if (viewModel.sound_effects_on)
                 trash_album.start()
         }
+
+        // Go back
         view.findViewById<ImageButton>(R.id.prev_page).setOnClickListener {
             webView.goBack()
         }

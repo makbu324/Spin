@@ -48,7 +48,7 @@ import java.util.UUID
 
 class MainViewModel(private val context: Application) : AndroidViewModel(context) {
 
-    private val imageUploader: ImageUploader = TransfershUploader()
+    // private val imageUploader: ImageUploader = TransfershUploader()
     private var imgPath = MutableLiveData("")
     private val appbarTitle = MutableLiveData("SPIN")
     private val allowGoBack = MutableLiveData(false)
@@ -135,6 +135,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
     }
 
 
+    // Chris - helper function to send encoded image to start of API chain
     @RequiresApi(Build.VERSION_CODES.O)
     fun uploadImage() {
         userImageBitmap = BitmapFactory.decodeFile(croppedImgPath)
@@ -143,6 +144,8 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
 
     fun getSearchResults(): LiveData<List<String>> = searchResults
 
+
+    // Chris - helper function that calls Google Cloud Vision then Spotify on results
     @RequiresApi(Build.VERSION_CODES.O)
     fun encodeImageAndGuess(bm: Bitmap) {
         val baos = ByteArrayOutputStream()
@@ -160,6 +163,8 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
             Log.d("resultDataList", resultDataList.toString())
         }
     }
+
+    // Chris - call to Google Vision used base64 encoded image, returns list of keywords
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun getAlbumGuesses(): MutableList<String> = withContext(Dispatchers.IO) {
         var albumGuessList = mutableListOf<String>()
@@ -185,10 +190,10 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
         // Define the media type for JSON
         val mediaType = "application/json".toMediaTypeOrNull()
 
-        // Create a RequestBody using the JSON string and media type
+        // RequestBody using the JSON string and media type
         val requestBody = json.toRequestBody(mediaType)
 
-        // Make the POST request
+        // POST request
         val retrofitForGoogle: Retrofit = Retrofit.Builder().baseUrl(googleURL)
             .addConverterFactory(GsonConverterFactory.create()).build()
         val googleService: GoogleApiService = retrofitForGoogle.create(GoogleApiService::class.java)
@@ -216,6 +221,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
 
 
 
+    // Chris - get top Spotify album results from inputted keywords
     suspend fun getSpotifyData(
         albumGuesses: MutableList<String>,
         SEARCH_URL: String
@@ -223,22 +229,16 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
         Log.d("album guesses for spot", albumGuesses.toString())
         var queryString = ""
         var resultDataList = mutableListOf<String>()
-        var censoredWords = listOf( //Mak: I added more things to avoid
-            "Album", "Cover", "Vinyl", "USA", "Import",
-            "LP", "CD", "Soundtrack", "Phonograph record", "German Import", "Studio album", "Rock", "Indie Rock", "Hip hop music"
-            ,"Record Producer", "Tiktok", "Youtube", "Rap", "NPR", "Instagram", "Poster", "poster", "Art", "Modern art", "Album cover")
 
         // get access key - post request
         val retrofitForKey: Retrofit = Retrofit.Builder().baseUrl("https://accounts.spotify.com/")
             .addConverterFactory(GsonConverterFactory.create()).build()
         val service: SpotifyApiService = retrofitForKey.create(SpotifyApiService::class.java)
-
         val listCall: Call<Token> =
             service.getToken(
                 "client_credentials",
                 "2efa2b94335a4eebb74a9a8447d424a2", "e4bfd9cacf994057b5a0367d89252442"
             )
-
         listCall.enqueue(object : Callback<Token> {
             override fun onResponse(call: Call<Token>, response: Response<Token>) {
                 if (response?.body() != null) {
@@ -247,12 +247,16 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
                 if (response?.body() == null) {
                 }
             }
-
             override fun onFailure(call: Call<Token>, t: Throwable) {
                 Log.e("Error", t.message.toString())
             }
         })
 
+        // Chris - remove censored words that will throw off results
+        var censoredWords = listOf( //Mak: I added more things to avoid
+            "Album", "Cover", "Vinyl", "USA", "Import",
+            "LP", "CD", "Soundtrack", "Phonograph record", "German Import", "Studio album", "Rock", "Indie Rock", "Hip hop music"
+            ,"Record Producer", "Tiktok", "Youtube", "Rap", "NPR", "Instagram", "Poster", "poster", "Art", "Modern art", "Album cover")
         var counter = 0
         for (guess in albumGuesses) {
             if (guess !in censoredWords && counter < 4) {
@@ -261,15 +265,15 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
             }
         }
 
+
+        // Built the POST request for album results
         delay(5000)
         var accessInfo = StringBuilder()
         accessInfo.append("Bearer ")
         accessInfo.append(SPOTIFY_ACCESS_TOKEN)
-
         val retrofitForAlbum: Retrofit = Retrofit.Builder().baseUrl("https://api.spotify.com/")
             .addConverterFactory(GsonConverterFactory.create()).build()
         val albumService: SpotifyApiService = retrofitForAlbum.create(SpotifyApiService::class.java)
-
         if (queryString.length > 100) {
             queryString = queryString.subSequence(0, 100).toString()
         }
@@ -277,9 +281,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
         Log.d("spotify token", accessInfo.toString())
         val albumListCall: Call<BaseResponse<UserResponse>> =
             albumService.getAlbum(queryString, arrayOf("album"), "US", accessInfo.toString())
-
         val response = albumListCall.execute() // Execute the call synchronously
-
         if (response.isSuccessful) {
             var i = 0
             Log.d("spotify query URL", albumListCall.request().url.toString())
@@ -294,12 +296,8 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
             )
             resultDataList.add(response.body()!!.albums!!.items[i].external_urls.spotify)
             spotifyImageURL= response.body()!!.albums!!.items[i].images[0].url
-            encodeSpotifyAlbumImage(spotifyImageURL)
+            encodeSpotifyAlbumImage(spotifyImageURL)      // convert spotifyImageURL to base64 for cover display
             Log.d("album result!!", resultDataList.toString())
-
-
-            // spotifyImageURL to base64
-
         } else {
             Log.i("Response!", "null response body")
         }
@@ -322,6 +320,7 @@ class MainViewModel(private val context: Application) : AndroidViewModel(context
 
     }*/
 
+    // Chris - convert from Spotify album image URL to bitmap (base64) for art display
     fun encodeSpotifyAlbumImage(url: String) {
         val ulrn = URL(url)
         val con = ulrn.openConnection() as HttpURLConnection
